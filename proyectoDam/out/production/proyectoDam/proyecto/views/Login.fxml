@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.views.LoginController">
+<AnchorPane prefHeight="297.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.views.LoginController">
    <children>
-      <PasswordField fx:id="pass" layoutX="226.0" layoutY="175.0" />
-      <TextField fx:id="text" layoutX="226.0" layoutY="104.0" />
-      <Button fx:id="button" layoutX="275.0" layoutY="242.0" mnemonicParsing="false" text="Entrar"  onAction="#entrar"/>
+      <PasswordField fx:id="pass" layoutX="54.0" layoutY="188.0" />
+      <TextField fx:id="text" layoutX="54.0" layoutY="102.0" />
+      <Button fx:id="button" layoutX="54.0" layoutY="247.0" mnemonicParsing="false" onAction="#entrar" text="Entrar" />
+      <Label layoutX="66.0" layoutY="50.0" text="Introduce tu usuario">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="55.0" layoutY="147.0" text="Introduce tu contraseña">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="241.0" fitWidth="317.0" layoutX="241.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="144.0" layoutY="247.0" mnemonicParsing="false" text="Dar alta" />
    </children>
 </AnchorPane>

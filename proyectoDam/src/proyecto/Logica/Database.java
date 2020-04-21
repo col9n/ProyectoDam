@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  * Database
- * @author Julian Jupiter
+ * @author Eduardo
  *
  */
 public class Database {
