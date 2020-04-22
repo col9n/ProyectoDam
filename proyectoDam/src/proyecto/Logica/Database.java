@@ -1,5 +1,6 @@
 package proyecto.Logica;
 import javafx.scene.control.Alert;
+import proyecto.modelos.Usuario;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -55,10 +56,25 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql="select user,pass from usuarios where  user = '"+user+"' and pass=MD5('"+pass+"')";
+      String sql="SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = '"+user+"' and pass=MD5('"+pass+"')";
+
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
+        if(rs.getBoolean("borradoLogico")==true)
+          return false;
+        int id_usuario=rs.getInt("id_usuario");
+        String nombre_usuario=rs.getString("nombre_usuario");
+        String apellido1=rs.getString("apellido1");
+        String apellido2=rs.getString("apellido2");
+        String usuario=rs.getString("usuario");
+        int id_centro=rs.getInt("id_centro");
+
+        Usuario usuario1=new Usuario(id_usuario,nombre_usuario,apellido1,apellido2,usuario,id_centro);
+        Logica.getInstance().setUsuario(usuario1);
+
+
+
         return true;
       }
       return false;

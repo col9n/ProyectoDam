@@ -1,6 +1,7 @@
 package proyecto.views;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import proyecto.Logica.Database;
 
 import java.io.IOException;
@@ -47,20 +49,20 @@ public class LoginController {
     }
 
     private void changeScene() {
-        stage.close();
-        Stage stage = new Stage();
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/proyecto/views/Principal.fxml"));
             Parent root = fxmlLoader.load();
             PrincipalController principalController = (PrincipalController) fxmlLoader.getController();
             stage.setTitle("");
-            stage.setScene(new Scene(root, 1200, 700));
+            stage.setScene(new Scene(root));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.showAndWait();
+        stage.show();
+
+
     }
 
     public Stage getStage() {
@@ -70,4 +72,7 @@ public class LoginController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+
+
 }
