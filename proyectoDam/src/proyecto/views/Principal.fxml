@@ -6,13 +6,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -60,27 +59,54 @@
         </MenuBar>
         <TabPane prefHeight="516.0" prefWidth="903.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
             <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="Proveedores">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                             <children>
-                                <Pane layoutX="162.0" prefHeight="429.0" prefWidth="741.0" />
-                                <ScrollPane prefHeight="487.0" prefWidth="161.0" AnchorPane.bottomAnchor="2.400000000000034" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="471.0" prefWidth="160.0">
-                                            <children>
-                                                <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="158.0" text="ver" />
-                                                <Button layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="158.0" text="modificar" />
-                                                <Button layoutX="1.0" layoutY="92.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="158.0" text="elimnar" />
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </ScrollPane>
+                        <BorderPane fx:id="borderPane" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                                <Button fx:id="prodButVer" mnemonicParsing="false" onAction="#prodVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                                <Button fx:id="prodButMod" mnemonicParsing="false" onAction="#prodMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                                <Button fx:id="prodButEli" mnemonicParsing="false" onAction="#prodEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#prodAña" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Label onMouseClicked="#prodAña" prefHeight="44.0" prefWidth="112.0" text="texto" />
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Productos">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
@@ -99,7 +125,7 @@
                                 <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
                             </textFill>
                         </Label>
-                        <Label fx:id="labelBotDer" font="$x3" layoutX="438.0" layoutY="24.0" maxWidth="-1.0" text="hora-fecha" textFill="$x4" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="20.0" />
+                        <Label fx:id="labelBotDer" font="$x3" layoutX="438.0" layoutY="24.0" maxWidth="-1.0" text="hora-fecha" textFill="$x4" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                     </children>
                 </AnchorPane>
             </children>
