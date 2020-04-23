@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="568.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.views.PrincipalController">
+<VBox prefHeight="568.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="proyecto.views.PrincipalController">
     <children>
         <MenuBar prefHeight="26.0" prefWidth="900.0">
             <menus>
@@ -67,27 +67,26 @@
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                                <Button fx:id="prodButVer" mnemonicParsing="false" onAction="#prodVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#provedAña" prefHeight="46.0" prefWidth="158.0" text="añadir">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                                <Button fx:id="prodButMod" mnemonicParsing="false" onAction="#prodMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                                <Button fx:id="provedButVer" mnemonicParsing="false" onAction="#prodVer" prefHeight="46.0" prefWidth="158.0" text="ver">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                                <Button fx:id="prodButEli" mnemonicParsing="false" onAction="#prodEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                                <Button fx:id="provedButMod" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#prodAña" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                                <Button fx:id="provedButEli" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Label onMouseClicked="#prodAña" prefHeight="44.0" prefWidth="112.0" text="texto" />
                                  </children>
                               </VBox>
                            </left>
@@ -115,9 +114,9 @@
         </TabPane>
         <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #121212;" VBox.vgrow="NEVER">
             <children>
-                <AnchorPane prefHeight="19.0" prefWidth="926.0">
-                    <children>
-                        <Label fx:id="labelBotIzq" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="user-centro" AnchorPane.bottomAnchor="1.0">
+            <BorderPane prefHeight="0.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
+               <left>
+                        <Label fx:id="labelBotIzq" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="user-centro" BorderPane.alignment="CENTER">
                             <font>
                                 <Font size="11.0" fx:id="x3" />
                             </font>
@@ -125,9 +124,18 @@
                                 <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
                             </textFill>
                         </Label>
-                        <Label fx:id="labelBotDer" font="$x3" layoutX="438.0" layoutY="24.0" maxWidth="-1.0" text="hora-fecha" textFill="$x4" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                    </children>
-                </AnchorPane>
+               </left>
+               <right>
+                        <Label fx:id="labelBotDer" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="hora-fecha" BorderPane.alignment="CENTER">
+                     <textFill>
+                        <Color blue="0.625" green="0.625" red="0.625" fx:id="x5" />
+                     </textFill>
+                     <font>
+                        <Font size="11.0" fx:id="x6" />
+                     </font>
+                  </Label>
+               </right>
+            </BorderPane>
             </children>
             <padding>
                 <Insets left="3.0" right="3.0" top="3.0" />

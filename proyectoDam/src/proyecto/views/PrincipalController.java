@@ -3,27 +3,22 @@ package proyecto.views;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import proyecto.Logica.Logica;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -32,25 +27,48 @@ public class PrincipalController implements Initializable {
     private Stage stage = new Stage();
     private Timeline timeline = Logica.getInstance().getTimeline();
 
+    /* Zona de border pane medio pagina */
     @FXML
-    private BorderPane borderPane;
+    private BorderPane borderPane=new BorderPane();
 
-
+    /*------------- Zona del tab proveedor --------------*/
+    /* Zona de ver provedor*/
     @FXML
-    private Button prodButVer;
-
-    @FXML
-    private Button prodButMod;
-
-    @FXML
-    private Button prodButEli;
+    private Button provedButVer;
 
     @FXML
     private Button prodButAña;
 
+    /* Zona de añadir provedor*/
+    @FXML
+    private TextField nombreProveedor;
+
+    @FXML
+    private TextField direccionProveedor;
+
+    @FXML
+    private Button guardarProveedor;
+
+    @FXML
+    private Button limpiarProveedor;
+
+    /* Zona de mod provedor*/
+    @FXML
+    private Button provedButMod;
+
+    /* Zona de eliminar provedor*/
+    @FXML
+    private Button provedButEli;
+
+
+
+    /* Zona de border pane pie de pagina */
+
+    /* Zona de border pane pie de pagina izquierda */
     @FXML
     private Label labelBotIzq;
 
+    /* Zona de border pane pie de pagina izquierda */
     @FXML
     private Label labelBotDer;
 
@@ -63,26 +81,59 @@ public class PrincipalController implements Initializable {
 
     }
 
-    @FXML
-    private void prodAña(ActionEvent event) {
-        load("AñadirProveedor");
-    }
+    /*------------- Zona del tab proveedor --------------*/
 
-    @FXML
-    private void prodEli(ActionEvent event) {
-        load("AñadirProveedor");
-
-
-    }
-
-    @FXML
-    private void prodMod(ActionEvent event) {
-        load("AñadirProveedor");
-    }
-
+    /* Zona de ver provedor*/
     @FXML
     private void prodVer(ActionEvent event) {
-        load("AñadirProveedor");
+        loadCenter("AñadirProveedor");
+    }
+
+    /* Zona de añadir provedor*/
+    @FXML
+    private void provedAña(ActionEvent event) {
+        loadCenter("AnadirProveedor");
+    }
+
+    @FXML
+    private void limpiarAddProveedor(ActionEvent event) {
+        nombreProveedor.setText("");
+        direccionProveedor.setText("");
+
+    }
+
+    @FXML
+    private void guardarProveedor(ActionEvent event) {
+        System.out.println( nombreProveedor.getText());
+        System.out.println( direccionProveedor.getText());
+    }
+
+    /* Zona de mod provedor*/
+    @FXML
+    private void provedMod(ActionEvent event) {
+        loadCenter("AnadirProveedor");
+    }
+
+    /* Zona de eliminar provedor*/
+    @FXML
+    private void provedEli(ActionEvent event) {
+        loadCenter("AnadirProveedor");
+
+
+    }
+
+
+
+    /*------------- Zona del tab producto --------------*/
+
+    private void loadCenter(String nombreFxml) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(nombreFxml + ".fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        borderPane.setCenter(root);
     }
 
     private void setFechaYHora() {
@@ -102,15 +153,7 @@ public class PrincipalController implements Initializable {
         this.stage = stage;
     }
 
-    private void load(String nombreFxml) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource(nombreFxml + ".fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        borderPane.setCenter(root);
-    }
+
 
 
 }

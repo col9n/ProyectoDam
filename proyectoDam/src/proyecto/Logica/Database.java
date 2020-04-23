@@ -17,9 +17,10 @@ public class Database {
 
   private static final Logger logger = Logger.getLogger(Database.class.getName());
   private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-  private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
-  private static final String DB_USER = "proyecto";
-  private static final String DB_PASSWORD = "proyecto";
+  private static final String DB_CONNECTION = "jdbc:mysql://ec2-100-26-98-199.compute-1.amazonaws.com:8081/proyecto";
+  //private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
+  private static final String DB_USER = "root";
+  private static final String DB_PASSWORD = "mypass123";
 
   public Database() {
 
@@ -27,7 +28,6 @@ public class Database {
 
   private static Connection getDBConnection() {
     Connection connection = null;
-
     try {
       Class.forName(DB_DRIVER);
     } catch (ClassNotFoundException exception) {
