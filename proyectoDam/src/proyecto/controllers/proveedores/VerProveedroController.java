@@ -28,8 +28,6 @@ public class VerProveedroController implements Initializable {
     @FXML
     private TableView<Proveedor> tableViewProveedor;
 
-    @FXML
-    private Button botonTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,11 +38,6 @@ public class VerProveedroController implements Initializable {
 
     }
 
-    @FXML
-    void setT(ActionEvent event) {
-        ObservableList<Proveedor> observableListProveedor =Logica.getInstance().getDatabase().getTodosProveedores();
-        tableViewProveedor.setItems(observableListProveedor);
-    }
 
     public Stage getStage() {
         return stage;
