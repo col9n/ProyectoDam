@@ -48,11 +48,17 @@ public class AñadirProveedroController implements Initializable {
     private void guardarProveedor(ActionEvent event) {
         String nombre =nombreProveedor.getText();
         String direecion=  direccionProveedor.getText();
-        int inserto=Logica.getInstance().getDatabase().addProveedor(nombre,direecion);
-        if(inserto!=0)
-            Logica.getInstance().alerta("Consulta realizada","El proveedor fue guardado", Alert.AlertType.CONFIRMATION);
+        if(!nombre.isEmpty() && !direecion.isEmpty()) {
+            int inserto = Logica.getInstance().getDatabase().addProveedor(nombre, direecion);
+            if (inserto != 0)
+                Logica.getInstance().alerta("Consulta realizada", "El proveedor fue guardado", Alert.AlertType.CONFIRMATION);
+            else
+                Logica.getInstance().alerta("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
+            limpiarProveedor.fire();
+        }
         else
-            Logica.getInstance().alerta("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
+            Logica.getInstance().alerta("Campos vacios","Nombre o direccion del proveedor vacio", Alert.AlertType.WARNING);
+
     }
 
     public Stage getStage() {
