@@ -144,6 +144,44 @@ public class Database {
     return listaProveedores;
   }
 
+  public boolean proveedorExists(String proveedor) {
+    Connection connection = null;
+    PreparedStatement statement = null;
+
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      Statement stmt = connection.createStatement();
+      String sql="SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor='"+proveedor+"'";
+
+
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        if(rs.getBoolean("borradoLogico")==true)
+          return false;
+        return true;
+      }
+      return false;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != statement) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return false;
+  }
+
   public int addProveedor(String nombre,String direccion) {
     Connection connection = null;
     PreparedStatement statement = null;
@@ -153,8 +191,7 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(true);
       Statement stmt = connection.createStatement();
-      String sql="INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, `borradoLogico`) VALUES ('"+nombre+"', '"+direccion+"', '0')";
-      System.out.println(sql);
+      String sql="INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, K`borradoLogico`) VALUES ('"+nombre+"', '"+direccion+"', '0')";
       rs = stmt.executeUpdate(sql);
       return rs;
     } catch (SQLException exception) {
