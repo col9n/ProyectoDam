@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import proyecto.Logica.Logica;
-import proyecto.views.LoginController;
+import proyecto.controllers.LoginController;
 
 public class Main extends Application {
 

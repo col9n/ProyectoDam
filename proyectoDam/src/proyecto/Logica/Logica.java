@@ -1,6 +1,7 @@
 package proyecto.Logica;
 
 import javafx.animation.Timeline;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import proyecto.modelos.Usuario;
 
@@ -12,7 +13,7 @@ public class Logica {
     private static Logica INSTANCE = null;
     private Usuario usuario;
     private Timeline timeline=new Timeline();
-    private int a=0;
+    Database database=new Database();
 
 
     private Logica() {
@@ -51,4 +52,22 @@ public class Logica {
     public void pararFecha() {
         timeline.stop();
     }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
+    public void alerta(String titulo, String texto, Alert.AlertType tipo){
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(texto);
+        alert.showAndWait();
+    }
+
+
 }

@@ -1,20 +1,22 @@
-package proyecto.views;
+package proyecto.controllers;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import proyecto.Logica.Logica;
+import proyecto.modelos.Proveedor;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,28 +31,19 @@ public class PrincipalController implements Initializable {
 
     /* Zona de border pane medio pagina */
     @FXML
-    private BorderPane borderPane=new BorderPane();
+    private BorderPane borderPane;
 
     /*------------- Zona del tab proveedor --------------*/
     /* Zona de ver provedor*/
     @FXML
     private Button provedButVer;
 
+    /* Zona de añadir provedor*/
     @FXML
     private Button prodButAña;
 
-    /* Zona de añadir provedor*/
-    @FXML
-    private TextField nombreProveedor;
 
-    @FXML
-    private TextField direccionProveedor;
 
-    @FXML
-    private Button guardarProveedor;
-
-    @FXML
-    private Button limpiarProveedor;
 
     /* Zona de mod provedor*/
     @FXML
@@ -66,19 +59,17 @@ public class PrincipalController implements Initializable {
 
     /* Zona de border pane pie de pagina izquierda */
     @FXML
-    private Label labelBotIzq;
+    private Label labelBotIzq=new Label();
 
     /* Zona de border pane pie de pagina izquierda */
     @FXML
-    private Label labelBotDer;
+    private Label labelBotDer=new Label();
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         labelBotIzq.setText(Logica.getInstance().getUsuario().toString());
         setFechaYHora();
-
-
     }
 
     /*------------- Zona del tab proveedor --------------*/
@@ -86,38 +77,29 @@ public class PrincipalController implements Initializable {
     /* Zona de ver provedor*/
     @FXML
     private void prodVer(ActionEvent event) {
-        loadCenter("AñadirProveedor");
+        loadCenter("/proyecto/views/proveedores/VerProveedor");
+
     }
+
 
     /* Zona de añadir provedor*/
     @FXML
-    private void provedAña(ActionEvent event) {
-        loadCenter("AnadirProveedor");
+    private void provedAdd(ActionEvent event) {
+        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
     }
 
-    @FXML
-    private void limpiarAddProveedor(ActionEvent event) {
-        nombreProveedor.setText("");
-        direccionProveedor.setText("");
 
-    }
-
-    @FXML
-    private void guardarProveedor(ActionEvent event) {
-        System.out.println( nombreProveedor.getText());
-        System.out.println( direccionProveedor.getText());
-    }
 
     /* Zona de mod provedor*/
     @FXML
     private void provedMod(ActionEvent event) {
-        loadCenter("AnadirProveedor");
+        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
     }
 
     /* Zona de eliminar provedor*/
     @FXML
     private void provedEli(ActionEvent event) {
-        loadCenter("AnadirProveedor");
+        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
 
 
     }

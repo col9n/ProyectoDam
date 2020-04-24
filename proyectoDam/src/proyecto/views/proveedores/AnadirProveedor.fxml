@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.views.PrincipalController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllers.proveedores.AñadirProveedroController">
    <children>
       <Label layoutX="137.0" layoutY="85.0" prefHeight="17.0" prefWidth="323.0" text="Nombre del proveedor" />
       <Label layoutX="137.0" layoutY="183.0" prefHeight="17.0" prefWidth="323.0" text="Direccion del proveedor" />

@@ -6,8 +6,10 @@ module proyectoDam {
     requires java.sql;
 
     exports proyecto;
-    exports proyecto.views;
+    exports proyecto.modelos;
+    exports proyecto.controllers;
     exports proyecto.Logica;
 
-    opens proyecto.views to javafx.fxml;
+    opens proyecto.controllers to javafx.fxml;
+    opens proyecto.controllers.proveedores to javafx.fxml;
 }

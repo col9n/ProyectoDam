@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="568.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="proyecto.views.PrincipalController">
+<VBox prefHeight="568.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllers.PrincipalController">
     <children>
         <MenuBar prefHeight="26.0" prefWidth="900.0">
             <menus>
@@ -67,7 +67,7 @@
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#provedAña" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
@@ -114,7 +114,7 @@
         </TabPane>
         <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #121212;" VBox.vgrow="NEVER">
             <children>
-            <BorderPane prefHeight="0.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
+            <BorderPane fx:id="borderPaneFooter" prefHeight="0.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
                <left>
                         <Label fx:id="labelBotIzq" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="user-centro" BorderPane.alignment="CENTER">
                             <font>
