@@ -9,7 +9,6 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -54,16 +53,14 @@ public class Database {
 
   public boolean userExists(String user,String pass) {
     Connection connection = null;
-    PreparedStatement statement = null;
-
+    PreparedStatement psSQL=null;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      Statement stmt = connection.createStatement();
-      String sql="SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = '"+user+"' and pass=MD5('"+pass+"')";
-
-
-      ResultSet rs = stmt.executeQuery(sql);
+      psSQL=connection.prepareStatement("SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = ? and pass=MD5(?);");
+      psSQL.setString(1,user);
+      psSQL.setString(2,pass);
+      ResultSet rs=psSQL.executeQuery();
       while (rs.next()) {
         if(rs.getBoolean("borradoLogico")==true)
           return false;
@@ -76,17 +73,14 @@ public class Database {
 
         Usuario usuario1=new Usuario(id_usuario,nombre_usuario,apellido1,apellido2,usuario,id_centro);
         Logica.getInstance().setUsuario(usuario1);
-
-
-
         return true;
       }
       return false;
     } catch (SQLException exception) {
     } finally {
-      if (null != statement) {
+      if (null != psSQL) {
         try {
-          statement.close();
+          psSQL.close();
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -118,9 +112,10 @@ public class Database {
           int id_proveedor = rs.getInt("id_proveedor");
           String nombre_proveedor = rs.getString("nombre_proveedor");
           String direccion_proveedor = rs.getString("direccion_proveedor");
+          boolean borradoLogico=rs.getBoolean("borradoLogico");
 
 
-          listaProveedores.add(new Proveedor(id_proveedor, nombre_proveedor, direccion_proveedor));
+          listaProveedores.add(new Proveedor(id_proveedor, nombre_proveedor, direccion_proveedor,borradoLogico));
         }
       }
       return listaProveedores;
@@ -146,16 +141,14 @@ public class Database {
 
   public boolean proveedorExists(String proveedor) {
     Connection connection = null;
-    PreparedStatement statement = null;
-
+    PreparedStatement psSQL=null;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      Statement stmt = connection.createStatement();
-      String sql="SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor='"+proveedor+"'";
+      psSQL=connection.prepareStatement("SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor=?");
+      psSQL.setString(1,proveedor);
 
-
-      ResultSet rs = stmt.executeQuery(sql);
+      ResultSet rs = psSQL.executeQuery();
       while (rs.next()) {
         if(rs.getBoolean("borradoLogico")==true)
           return false;
@@ -164,9 +157,9 @@ public class Database {
       return false;
     } catch (SQLException exception) {
     } finally {
-      if (null != statement) {
+      if (null != psSQL) {
         try {
-          statement.close();
+          psSQL.close();
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -184,21 +177,22 @@ public class Database {
 
   public int addProveedor(String nombre,String direccion) {
     Connection connection = null;
-    PreparedStatement statement = null;
-    ArrayList<Proveedor> listaProveedores= new ArrayList<Proveedor>();
+    PreparedStatement psInsertar=null;
     int rs=0;
     try {
       connection = Database.getDBConnection();
-      connection.setAutoCommit(true);
-      Statement stmt = connection.createStatement();
-      String sql="INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, K`borradoLogico`) VALUES ('"+nombre+"', '"+direccion+"', '0')";
-      rs = stmt.executeUpdate(sql);
+      connection.setAutoCommit(false);
+      psInsertar=connection.prepareStatement("INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, K`borradoLogico`) VALUES (?, ?, '0')");
+      psInsertar.setString(1,nombre);
+      psInsertar.setString(2,direccion);
+      rs = psInsertar.executeUpdate();
+      connection.commit();
       return rs;
     } catch (SQLException exception) {
     } finally {
-      if (null != statement) {
+      if (null != psInsertar) {
         try {
-          statement.close();
+          psInsertar.close();
         } catch (SQLException e) {
           e.printStackTrace();
         }

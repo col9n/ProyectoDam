@@ -15,7 +15,7 @@ import proyecto.modelos.Proveedor;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AñadirProveedroController implements Initializable {
+public class AddProveedroController implements Initializable {
     private Stage stage = new Stage();
 
     @FXML
@@ -54,15 +54,15 @@ public class AñadirProveedroController implements Initializable {
             {
                 int inserto = Logica.getInstance().getDatabase().addProveedor(nombre, direecion);
                 if (inserto != 0)
-                    Logica.getInstance().alerta("Consulta realizada", "El proveedor fue guardado con nombre: "+nombre+ " y direccion: "+direecion, Alert.AlertType.INFORMATION);
+                    Logica.getInstance().alertaShow("Consulta realizada", "El proveedor fue guardado con nombre: "+nombre+ " y direccion: "+direecion, Alert.AlertType.INFORMATION);
                 else
-                    Logica.getInstance().alerta("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
+                    Logica.getInstance().alertaShow("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
             }
             else
-                Logica.getInstance().alerta("Campos vacios","El proveedor :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
+                Logica.getInstance().alertaShow("Campos vacios","El proveedor :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
         }
         else
-            Logica.getInstance().alerta("Campos vacios","Nombre o direccion del proveedor vacio", Alert.AlertType.WARNING);
+            Logica.getInstance().alertaShow("Campos vacios","Nombre o direccion del proveedor vacio", Alert.AlertType.WARNING);
         limpiarProveedor.fire();
 
     }

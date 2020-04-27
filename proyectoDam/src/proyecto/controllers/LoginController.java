@@ -37,7 +37,7 @@ public class LoginController {
         }
         else
         {
-            Logica.getInstance().alerta("Error de acceso","Revise usuario  y contraseña", Alert.AlertType.INFORMATION);
+            Logica.getInstance().alertaShow("Error de acceso","Revise usuario  y contraseña", Alert.AlertType.INFORMATION);
         }
     }
 

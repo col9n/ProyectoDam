@@ -12,4 +12,5 @@ module proyectoDam {
 
     opens proyecto.controllers to javafx.fxml;
     opens proyecto.controllers.proveedores to javafx.fxml;
+    opens proyecto.modelos to javafx.fxml;
 }

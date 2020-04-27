@@ -85,7 +85,7 @@ public class PrincipalController implements Initializable {
     /* Zona de añadir provedor*/
     @FXML
     private void provedAdd(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
+        loadCenter("/proyecto/views/proveedores/AddProveedor");
     }
 
 
@@ -93,13 +93,13 @@ public class PrincipalController implements Initializable {
     /* Zona de mod provedor*/
     @FXML
     private void provedMod(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
+        loadCenter("/proyecto/views/proveedores/ModProveedor");
     }
 
     /* Zona de eliminar provedor*/
     @FXML
     private void provedEli(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/AnadirProveedor");
+        loadCenter("/proyecto/views/proveedores/EliProveedor");
 
 
     }
