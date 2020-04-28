@@ -1,7 +1,6 @@
 package proyecto.controllers.proveedores;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
@@ -22,10 +20,7 @@ import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EliProveedroController implements Initializable {
     private Stage stage = new Stage();
@@ -36,7 +31,7 @@ public class EliProveedroController implements Initializable {
     private TableView<Proveedor> tableViewProveedor;
 
     @FXML
-    private TableColumn<?, ?> borrarColumna;
+    private TableColumn<Proveedor, CheckBox> borrado;
 
     @FXML
     private ComboBox<String> combobox;
@@ -57,17 +52,38 @@ public class EliProveedroController implements Initializable {
             }
         });
 
+        /*
+        proveedorObservableList.addListener((ListChangeListener<Proveedor>) change -> {
+            while (change.next()) {
+                if (change.wasUpdated()) {
+                    System.out.println(change.wasUpdated());
+                }
+            }
+        });
 
-        borrarColumna.setCellValueFactory(
-                c -> {
-                    Proveedor candidate = (Proveedor) c.getValue();
-                    CheckBox checkBox = new CheckBox();
-                    checkBox.selectedProperty().setValue(candidate.isBorradoLogico());
-                    checkBox
-                            .selectedProperty()
-                            .addListener((ov, old_val, new_val) -> candidate.setBorradoLogico(new_val));
-                    return new SimpleObjectProperty(checkBox);
-                });
+         */
+      //  proveedorObservableList.addListener((new ObservableList<Proveedor>()
+
+
+
+
+
+        /*
+        checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
+        checkBoxColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Proveedor, Boolean>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Proveedor, Boolean> proveedorSimpleBooleanPropertyCellEditEvent) {
+                Proveedor prov = proveedorSimpleBooleanPropertyCellEditEvent.getTableView().getSelectionModel().getSelectedItem();
+                System.out.println( prov.toString());
+            }
+        });
+
+        <TableColumn fx:id="checkBoxColumn" editable="true" prefWidth="75.0" text="Borrado"  >
+                <cellValueFactory><PropertyValueFactory property="borradoLogico" /></cellValueFactory>
+                <cellFactory><CheckBoxCellFactory /></cellFactory>
+            </TableColumn>
+         */
+
     }
 
 
@@ -104,6 +120,9 @@ public class EliProveedroController implements Initializable {
         }
         tableViewProveedor.setItems(listaFiltrada);
     }
+
+
+
 
     public Stage getStage() {
         return stage;

@@ -1,15 +1,26 @@
 package proyecto.modelos;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.cell.CheckBoxTableCell;
+
 public class Proveedor {
     private int id_proveedor;
     private String nombre_proveedor;
     private String direccion_proveedor;
     private boolean borradoLogico;
+    private CheckBox box=new CheckBox();
 
     public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor) {
         this.id_proveedor = id_proveedor;
         this.nombre_proveedor = nombre_proveedor;
         this.direccion_proveedor = direccion_proveedor;
+
+
+
     }
 
     public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor, boolean borradoLogico) {
@@ -17,6 +28,15 @@ public class Proveedor {
         this.nombre_proveedor = nombre_proveedor;
         this.direccion_proveedor = direccion_proveedor;
         this.borradoLogico = borradoLogico;
+        box.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue)
+                    System.out.println("true");
+                else
+                    System.out.println("false");
+            }
+        });
     }
 
     public int getId_proveedor() {
@@ -43,13 +63,20 @@ public class Proveedor {
         this.direccion_proveedor = direccion_proveedor;
     }
 
-
-    public boolean isBorradoLogico() {
-        return borradoLogico;
+    public boolean getBorradoLogico() {
+        return this.borradoLogico;
     }
 
-    public void setBorradoLogico(boolean borradoLogico) {
-        this.borradoLogico = borradoLogico;
+    public void setBorradoLogico(boolean borrado) {
+        this.borradoLogico=borrado;
+    }
+
+    public CheckBox getBox() {
+        return box;
+    }
+
+    public void setBox(CheckBox box) {
+        this.box = box;
     }
 
     @Override

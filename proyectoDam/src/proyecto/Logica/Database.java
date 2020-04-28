@@ -1,4 +1,5 @@
 package proyecto.Logica;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -9,6 +10,7 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -20,7 +22,7 @@ public class Database {
 
   private static final Logger logger = Logger.getLogger(Database.class.getName());
   private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-  //private static final String DB_CONNECTION = "jdbc:mysql://ec2-52-90-114-135.compute-1.amazonaws.com:3306/proyectodam";
+  //private static final String DB_CONNECTION = "jdbc:mysql://ec2-18-204-199-12.compute-1.amazonaws.com:3306/proyectodam";
   private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
   private static final String DB_USER = "root";
   //private static final String DB_PASSWORD = "mypass123";
@@ -112,7 +114,7 @@ public class Database {
           int id_proveedor = rs.getInt("id_proveedor");
           String nombre_proveedor = rs.getString("nombre_proveedor");
           String direccion_proveedor = rs.getString("direccion_proveedor");
-          boolean borradoLogico=rs.getBoolean("borradoLogico");
+          Boolean borradoLogico=rs.getBoolean("borradoLogico");
 
 
           listaProveedores.add(new Proveedor(id_proveedor, nombre_proveedor, direccion_proveedor,borradoLogico));
@@ -207,5 +209,46 @@ public class Database {
     }
     return rs;
   }
+
+  public int updateProveedor(List<Proveedor> listaActualizar) {
+    Connection connection = null;
+    PreparedStatement update = null;
+    int rs=0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Proveedor prov:listaActualizar) {
+        String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? , nombre_proveedor= ? WHERE `id_proveedor` = ?";
+        update = connection.prepareStatement(consulta);
+        update.setString(1, prov.getNombre_proveedor());
+        update.setString(2, prov.getDireccion_proveedor());
+        update.setInt(3, prov.getId_proveedor());
+
+        rs=rs+update.executeUpdate();
+
+      }
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != update) {
+        try {
+          update.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.rollback();
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
 
 }

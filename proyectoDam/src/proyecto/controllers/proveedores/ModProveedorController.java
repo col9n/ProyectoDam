@@ -135,10 +135,15 @@ public class ModProveedorController implements Initializable {
         cambios=cambios+"\nFilas afectadas :"+listaActualizar.size();
         Alert alerta=Logica.getInstance().alertaGet("Realizar cambios",cambios, Alert.AlertType.CONFIRMATION);
         Optional<ButtonType> result = alerta.showAndWait();
-        if(result.get() == ButtonType.OK)
-            System.out.println("update");
-        if(result.get() == ButtonType.CANCEL)
-            System.out.println("cancel");
+        if(result.get() == ButtonType.OK) {
+            int afectadas=Logica.getInstance().getDatabase().updateProveedor(listaActualizar);
+            if(afectadas!=listaActualizar.size())
+            {
+                Logica.getInstance().alertaShow("Realizar cambios","Se produjo un error en el guardado", Alert.AlertType.ERROR);
+            }
+            else
+                Logica.getInstance().alertaShow("Realizar cambios","Numero de cambios realizados: "+listaActualizar.size()+" ", Alert.AlertType.INFORMATION);
+        }
         listaActualizar.clear();
         }
 
