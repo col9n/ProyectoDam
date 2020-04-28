@@ -146,7 +146,6 @@ public class ModProveedorController implements Initializable {
         }
         listaActualizar.clear();
         }
-
        else
            Logica.getInstance().alertaShow("Realizar cambios","Ningun cambio realizado", Alert.AlertType.INFORMATION);
 

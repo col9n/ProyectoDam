@@ -1,8 +1,11 @@
 package proyecto.Logica;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.util.Callback;
 import proyecto.modelos.Proveedor;
 import proyecto.modelos.Usuario;
 
@@ -53,27 +56,27 @@ public class Database {
     return connection;
   }
 
-  public boolean userExists(String user,String pass) {
+  public boolean userExists(String user, String pass) {
     Connection connection = null;
-    PreparedStatement psSQL=null;
+    PreparedStatement psSQL = null;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psSQL=connection.prepareStatement("SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = ? and pass=MD5(?);");
-      psSQL.setString(1,user);
-      psSQL.setString(2,pass);
-      ResultSet rs=psSQL.executeQuery();
+      psSQL = connection.prepareStatement("SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = ? and pass=MD5(?);");
+      psSQL.setString(1, user);
+      psSQL.setString(2, pass);
+      ResultSet rs = psSQL.executeQuery();
       while (rs.next()) {
-        if(rs.getBoolean("borradoLogico")==true)
+        if (rs.getBoolean("borradoLogico") == true)
           return false;
-        int id_usuario=rs.getInt("id_usuario");
-        String nombre_usuario=rs.getString("nombre_usuario");
-        String apellido1=rs.getString("apellido1");
-        String apellido2=rs.getString("apellido2");
-        String usuario=rs.getString("usuario");
-        int id_centro=rs.getInt("id_centro");
+        int id_usuario = rs.getInt("id_usuario");
+        String nombre_usuario = rs.getString("nombre_usuario");
+        String apellido1 = rs.getString("apellido1");
+        String apellido2 = rs.getString("apellido2");
+        String usuario = rs.getString("usuario");
+        int id_centro = rs.getInt("id_centro");
 
-        Usuario usuario1=new Usuario(id_usuario,nombre_usuario,apellido1,apellido2,usuario,id_centro);
+        Usuario usuario1 = new Usuario(id_usuario, nombre_usuario, apellido1, apellido2, usuario, id_centro);
         Logica.getInstance().setUsuario(usuario1);
         return true;
       }
@@ -101,23 +104,31 @@ public class Database {
   public ObservableList<Proveedor> getTodosProveedores() {
     Connection connection = null;
     PreparedStatement statement = null;
-    ObservableList<Proveedor> listaProveedores= FXCollections.observableArrayList();
+    ObservableList<Proveedor> listaProveedores = FXCollections.observableArrayList(
+            new Callback<Proveedor, Observable[]>() {
+              @Override
+              public Observable[] call(Proveedor param) {
+                return new Observable[]{
+                        param.borradoLogicoProperty()
+                };
+              }
+            }
+    );
+    // ObservableList<Proveedor> listaProveedores= FXCollections.observableArrayList();
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql="SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores`";
+      String sql = "SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores`";
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        if(rs.getBoolean("borradoLogico")==false) {
+        if (rs.getBoolean("borradoLogico") == false) {
           int id_proveedor = rs.getInt("id_proveedor");
           String nombre_proveedor = rs.getString("nombre_proveedor");
           String direccion_proveedor = rs.getString("direccion_proveedor");
-          Boolean borradoLogico=rs.getBoolean("borradoLogico");
-
-
-          listaProveedores.add(new Proveedor(id_proveedor, nombre_proveedor, direccion_proveedor,borradoLogico));
+          BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
+          listaProveedores.add(new Proveedor(id_proveedor, nombre_proveedor, direccion_proveedor, borradoLogico));
         }
       }
       return listaProveedores;
@@ -143,16 +154,16 @@ public class Database {
 
   public boolean proveedorExists(String proveedor) {
     Connection connection = null;
-    PreparedStatement psSQL=null;
+    PreparedStatement psSQL = null;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psSQL=connection.prepareStatement("SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor=?");
-      psSQL.setString(1,proveedor);
+      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor=?");
+      psSQL.setString(1, proveedor);
 
       ResultSet rs = psSQL.executeQuery();
       while (rs.next()) {
-        if(rs.getBoolean("borradoLogico")==true)
+        if (rs.getBoolean("borradoLogico") == true)
           return false;
         return true;
       }
@@ -177,16 +188,16 @@ public class Database {
     return false;
   }
 
-  public int addProveedor(String nombre,String direccion) {
+  public int addProveedor(String nombre, String direccion) {
     Connection connection = null;
-    PreparedStatement psInsertar=null;
-    int rs=0;
+    PreparedStatement psInsertar = null;
+    int rs = 0;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psInsertar=connection.prepareStatement("INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, K`borradoLogico`) VALUES (?, ?, '0')");
-      psInsertar.setString(1,nombre);
-      psInsertar.setString(2,direccion);
+      psInsertar = connection.prepareStatement("INSERT INTO `proveedores` (`nombre_proveedor`, `direccion_proveedor`, `borradoLogico`) VALUES (?, ?, '0')");
+      psInsertar.setString(1, nombre);
+      psInsertar.setString(2, direccion);
       rs = psInsertar.executeUpdate();
       connection.commit();
       return rs;
@@ -213,18 +224,18 @@ public class Database {
   public int updateProveedor(List<Proveedor> listaActualizar) {
     Connection connection = null;
     PreparedStatement update = null;
-    int rs=0;
+    int rs = 0;
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      for (Proveedor prov:listaActualizar) {
+      for (Proveedor prov : listaActualizar) {
         String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? , nombre_proveedor= ? WHERE `id_proveedor` = ?";
         update = connection.prepareStatement(consulta);
         update.setString(1, prov.getNombre_proveedor());
         update.setString(2, prov.getDireccion_proveedor());
         update.setInt(3, prov.getId_proveedor());
 
-        rs=rs+update.executeUpdate();
+        rs = rs + update.executeUpdate();
 
       }
       connection.commit();
@@ -251,4 +262,41 @@ public class Database {
   }
 
 
+  public int deleteProveedores(List<Proveedor> listaBorrados) {
+    Connection connection = null;
+    PreparedStatement update = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Proveedor prov : listaBorrados) {
+        String consulta = "DELETE FROM `proveedores` WHERE `id_proveedor` = ?";
+        update = connection.prepareStatement(consulta);
+        update.setInt(1, prov.getId_proveedor());
+
+        rs = rs + update.executeUpdate();
+
+      }
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != update) {
+        try {
+          update.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.rollback();
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
 }

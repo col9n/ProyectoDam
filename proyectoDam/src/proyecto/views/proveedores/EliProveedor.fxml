@@ -30,7 +30,7 @@
                 <PropertyValueFactory property="direccion_proveedor" />
             </cellValueFactory>
         </TableColumn>
-            <TableColumn fx:id="borrado" prefWidth="75.0" text="borrado" >
+            <TableColumn fx:id="borrado" prefWidth="75.0" text="borrado">
             <cellValueFactory>
                 <PropertyValueFactory property="box" />
             </cellValueFactory>
@@ -55,6 +55,6 @@
            </value>
        </ComboBox>
       <TextField fx:id="textProveedor" layoutX="279.0" layoutY="336.0" prefHeight="25.0" prefWidth="294.0" />
-      <Button layoutX="253.0" layoutY="374.0" mnemonicParsing="false" text="Guardar cambios" />
+      <Button fx:id="eliminar" layoutX="253.0" layoutY="374.0" mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
    </children>
 </Pane>

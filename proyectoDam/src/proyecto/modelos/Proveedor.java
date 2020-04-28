@@ -1,29 +1,21 @@
 package proyecto.modelos;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.cell.CheckBoxTableCell;
 
 public class Proveedor {
     private int id_proveedor;
     private String nombre_proveedor;
     private String direccion_proveedor;
-    private boolean borradoLogico;
+    private BooleanProperty borradoLogico;
     private CheckBox box=new CheckBox();
 
-    public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor) {
-        this.id_proveedor = id_proveedor;
-        this.nombre_proveedor = nombre_proveedor;
-        this.direccion_proveedor = direccion_proveedor;
 
 
-
-    }
-
-    public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor, boolean borradoLogico) {
+    public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor,BooleanProperty borradoLogico) {
         this.id_proveedor = id_proveedor;
         this.nombre_proveedor = nombre_proveedor;
         this.direccion_proveedor = direccion_proveedor;
@@ -32,9 +24,13 @@ public class Proveedor {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue)
-                    System.out.println("true");
-                else
-                    System.out.println("false");
+                {
+                    setBorradoLogico(false);
+                }
+                if (!newValue)
+                {
+                    setBorradoLogico(true);
+                }
             }
         });
     }
@@ -63,12 +59,21 @@ public class Proveedor {
         this.direccion_proveedor = direccion_proveedor;
     }
 
-    public boolean getBorradoLogico() {
-        return this.borradoLogico;
+
+    public boolean isBorradoLogico() {
+        return borradoLogico.get();
     }
 
-    public void setBorradoLogico(boolean borrado) {
-        this.borradoLogico=borrado;
+    public BooleanProperty borradoLogicoProperty() {
+        return borradoLogico;
+    }
+
+    public void setBorradoLogico(boolean borradoLogico) {
+        this.borradoLogico.set(borradoLogico);
+    }
+
+    public Proveedor() {
+        this.borradoLogico = borradoLogico;
     }
 
     public CheckBox getBox() {

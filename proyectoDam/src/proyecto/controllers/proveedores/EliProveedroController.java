@@ -1,21 +1,15 @@
 package proyecto.controllers.proveedores;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
 
@@ -25,19 +19,21 @@ import java.util.*;
 public class EliProveedroController implements Initializable {
     private Stage stage = new Stage();
     private ObservableList<Proveedor> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProveedores();
-    private List<Proveedor> listaActualizar = Collections.synchronizedList(new ArrayList());
+    private List<Proveedor> listaBorrar = Collections.synchronizedList(new ArrayList());
 
     @FXML
     private TableView<Proveedor> tableViewProveedor;
-
-    @FXML
-    private TableColumn<Proveedor, CheckBox> borrado;
 
     @FXML
     private ComboBox<String> combobox;
 
     @FXML
     private TextField textProveedor;
+
+    @FXML
+    private Button eliminar;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,37 +48,25 @@ public class EliProveedroController implements Initializable {
             }
         });
 
-        /*
-        proveedorObservableList.addListener((ListChangeListener<Proveedor>) change -> {
-            while (change.next()) {
-                if (change.wasUpdated()) {
-                    System.out.println(change.wasUpdated());
+        proveedorObservableList.addListener(new ListChangeListener<Proveedor>() {
+            @Override
+            public void onChanged(Change<? extends Proveedor> c) {
+                while (c.next()) {
+                    if (c.wasUpdated()) {
+                        for (int i = c.getFrom(); i < c.getTo(); ++i) {
+                            Proveedor prov =proveedorObservableList.get(i);
+                            for (Proveedor pro : listaBorrar) {
+                                if (pro.getId_proveedor() == prov.getId_proveedor())
+                                    listaBorrar.remove(pro);
+                            }
+                            if(!prov.isBorradoLogico())
+                            listaBorrar.add(prov);
+                        }
+
+                    }
                 }
             }
         });
-
-         */
-      //  proveedorObservableList.addListener((new ObservableList<Proveedor>()
-
-
-
-
-
-        /*
-        checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
-        checkBoxColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Proveedor, Boolean>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Proveedor, Boolean> proveedorSimpleBooleanPropertyCellEditEvent) {
-                Proveedor prov = proveedorSimpleBooleanPropertyCellEditEvent.getTableView().getSelectionModel().getSelectedItem();
-                System.out.println( prov.toString());
-            }
-        });
-
-        <TableColumn fx:id="checkBoxColumn" editable="true" prefWidth="75.0" text="Borrado"  >
-                <cellValueFactory><PropertyValueFactory property="borradoLogico" /></cellValueFactory>
-                <cellFactory><CheckBoxCellFactory /></cellFactory>
-            </TableColumn>
-         */
 
     }
 
@@ -130,6 +114,39 @@ public class EliProveedroController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    void eliminar(ActionEvent event) {
+        if(listaBorrar.size()>0){
+            String borrados="Estos son los proveedores a borrar:\n\n";
+            for (Proveedor pro: listaBorrar) {
+                borrados = borrados+("-"+pro.getId_proveedor()+" nombre: "+pro.getNombre_proveedor()+" dirrecion: "+pro.getDireccion_proveedor()+"\n");
+            }
+            borrados=borrados+"\nFilas afectadas :"+ listaBorrar.size();
+            Alert alerta=Logica.getInstance().alertaGet("Realizar borrado",borrados, Alert.AlertType.CONFIRMATION);
+            Optional<ButtonType> result = alerta.showAndWait();
+            if(result.get() == ButtonType.OK) {
+                int afectadas=Logica.getInstance().getDatabase().deleteProveedores(listaBorrar);
+                if(afectadas!= listaBorrar.size())
+                {
+                    Logica.getInstance().alertaShow("Realizar borrado","Se produjo un error en el borrado", Alert.AlertType.ERROR);
+                }
+                else
+                    Logica.getInstance().alertaShow("Realizar borrado","Numero de borrados realizados: "+ listaBorrar.size()+" ", Alert.AlertType.INFORMATION);
+            }
+            actualizarTableView();
+        }
+        else
+            Logica.getInstance().alertaShow("Realizar borrado","Ningun borrado realizado", Alert.AlertType.INFORMATION);
+
+    }
+    private void actualizarTableView(){
+        for(Proveedor prov:listaBorrar)
+        {
+            proveedorObservableList.remove(prov);
+        }
+        listaBorrar.clear();
     }
 
 }
