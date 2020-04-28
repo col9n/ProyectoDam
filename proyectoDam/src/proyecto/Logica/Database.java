@@ -23,13 +23,14 @@ import java.util.logging.Logger;
  */
 public class Database {
 
-  private static final Logger logger = Logger.getLogger(Database.class.getName());
+
+
   private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-  //private static final String DB_CONNECTION = "jdbc:mysql://ec2-18-204-199-12.compute-1.amazonaws.com:3306/proyectodam";
-  private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
+  private static final String DB_CONNECTION = "jdbc:mysql://ec2-52-0-66-200.compute-1.amazonaws.com:3306";
+  //private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
   private static final String DB_USER = "root";
-  //private static final String DB_PASSWORD = "mypass123";
-  private static final String DB_PASSWORD = "root";
+  private static final String DB_PASSWORD = "mypass123";
+  //private static final String DB_PASSWORD = "root";
 
   public Database() {
 
