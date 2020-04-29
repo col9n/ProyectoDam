@@ -10,29 +10,11 @@ public class Proveedor {
     private int id_proveedor;
     private String nombre_proveedor;
     private String direccion_proveedor;
-    private BooleanProperty borradoLogico;
-    private CheckBox box=new CheckBox();
 
-
-
-    public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor,BooleanProperty borradoLogico) {
+    public Proveedor(int id_proveedor, String nombre_proveedor, String direccion_proveedor) {
         this.id_proveedor = id_proveedor;
         this.nombre_proveedor = nombre_proveedor;
         this.direccion_proveedor = direccion_proveedor;
-        this.borradoLogico = borradoLogico;
-        box.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue)
-                {
-                    setBorradoLogico(false);
-                }
-                if (!newValue)
-                {
-                    setBorradoLogico(true);
-                }
-            }
-        });
     }
 
     public int getId_proveedor() {
@@ -60,29 +42,7 @@ public class Proveedor {
     }
 
 
-    public boolean isBorradoLogico() {
-        return borradoLogico.get();
-    }
 
-    public BooleanProperty borradoLogicoProperty() {
-        return borradoLogico;
-    }
-
-    public void setBorradoLogico(boolean borradoLogico) {
-        this.borradoLogico.set(borradoLogico);
-    }
-
-    public Proveedor() {
-        this.borradoLogico = borradoLogico;
-    }
-
-    public CheckBox getBox() {
-        return box;
-    }
-
-    public void setBox(CheckBox box) {
-        this.box = box;
-    }
 
     @Override
     public String toString() {
@@ -90,7 +50,6 @@ public class Proveedor {
                 "id_proveedor=" + id_proveedor +
                 ", nombre_proveedor='" + nombre_proveedor + '\'' +
                 ", direccion_proveedor='" + direccion_proveedor + '\'' +
-                ", borradoLogico=" + borradoLogico +
                 '}';
     }
 }

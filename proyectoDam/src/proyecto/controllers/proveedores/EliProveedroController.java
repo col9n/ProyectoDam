@@ -12,17 +12,18 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
+import proyecto.modelos.ProveedorEliminar;
 
 import java.net.URL;
 import java.util.*;
 
 public class EliProveedroController implements Initializable {
     private Stage stage = new Stage();
-    private ObservableList<Proveedor> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProveedores();
-    private List<Proveedor> listaBorrar = Collections.synchronizedList(new ArrayList());
+    private ObservableList<ProveedorEliminar> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProveedoresEliminar();
+    List <ProveedorEliminar> listaBorrar = new <Proveedor> ArrayList();
 
     @FXML
-    private TableView<Proveedor> tableViewProveedor;
+    private TableView<ProveedorEliminar> tableViewProveedor;
 
     @FXML
     private ComboBox<String> combobox;
@@ -54,18 +55,15 @@ public class EliProveedroController implements Initializable {
                 while (c.next()) {
                     if (c.wasUpdated()) {
                         for (int i = c.getFrom(); i < c.getTo(); ++i) {
-                            Proveedor prov =proveedorObservableList.get(i);
-                            for (Proveedor pro : listaBorrar) {
-                                if (pro.getId_proveedor() == prov.getId_proveedor())
-                                    listaBorrar.remove(pro);
+                            ProveedorEliminar prov =proveedorObservableList.get(i);
+                            listaBorrar.remove(prov);
+                            if(!prov.isBorradoLogico()) {
+                                listaBorrar.add(prov);
                             }
-                            if(!prov.isBorradoLogico())
-                            listaBorrar.add(prov);
-                        }
-
                     }
                 }
             }
+        }
         });
 
     }
@@ -73,31 +71,31 @@ public class EliProveedroController implements Initializable {
 
     private void filtrarLista() {
         String opcion=combobox.getSelectionModel().getSelectedItem();
-        ObservableList<Proveedor> listaFiltrada= FXCollections.observableArrayList();
+        ObservableList<ProveedorEliminar> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (Proveedor proveedor:proveedorObservableList) {
+            for (ProveedorEliminar proveedor:proveedorObservableList) {
                 if(proveedor.toString().contains(textProveedor.getText()))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("ID"))
         {
-            for (Proveedor proveedor:proveedorObservableList) {
+            for (ProveedorEliminar proveedor:proveedorObservableList) {
                 if(String.valueOf(proveedor.getId_proveedor()).contains(textProveedor.getText()))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
-            for (Proveedor proveedor:proveedorObservableList) {
+            for (ProveedorEliminar proveedor:proveedorObservableList) {
                 if(proveedor.getNombre_proveedor().contains(textProveedor.getText()))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("Direccion"))
         {
-            for (Proveedor proveedor:proveedorObservableList) {
+            for (ProveedorEliminar proveedor:proveedorObservableList) {
                 if(proveedor.getDireccion_proveedor().contains(textProveedor.getText()))
                     listaFiltrada.add(proveedor);
             }
@@ -134,15 +132,16 @@ public class EliProveedroController implements Initializable {
                 }
                 else
                     Logica.getInstance().alertaShow("Realizar borrado","Numero de borrados realizados: "+ listaBorrar.size()+" ", Alert.AlertType.INFORMATION);
+                actualizarTableView();
             }
-            actualizarTableView();
+
         }
         else
             Logica.getInstance().alertaShow("Realizar borrado","Ningun borrado realizado", Alert.AlertType.INFORMATION);
 
     }
     private void actualizarTableView(){
-        for(Proveedor prov:listaBorrar)
+        for(ProveedorEliminar prov:listaBorrar)
         {
             proveedorObservableList.remove(prov);
         }
