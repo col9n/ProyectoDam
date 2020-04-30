@@ -4,6 +4,8 @@ module proyectoDam {
     requires javafx.controls;
     requires javafx.web;
     requires java.sql;
+    requires controlsfx;
+
 
     exports proyecto;
     exports proyecto.modelos;

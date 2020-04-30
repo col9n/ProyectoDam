@@ -61,21 +61,7 @@ public class Logica {
         this.database = database;
     }
 
-    public void alertaShow(String titulo, String texto, Alert.AlertType tipo){
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(texto);
-        alert.showAndWait();
-    }
 
-    public Alert alertaGet(String titulo, String texto, Alert.AlertType tipo){
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(texto);
-        return alert;
-    }
 
 
 }

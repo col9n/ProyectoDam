@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.validation.ValidationSupport;
 import proyecto.Logica.Logica;
+import proyecto.util.Util;
 
 import java.io.IOException;
 
@@ -18,6 +20,7 @@ import java.io.IOException;
 
 public class LoginController {
     private Stage stage=new Stage();
+
     @FXML
     private PasswordField pass;
 
@@ -37,7 +40,7 @@ public class LoginController {
         }
         else
         {
-            Logica.getInstance().alertaShow("Error de acceso","Revise usuario  y contraseña", Alert.AlertType.INFORMATION);
+            Util.alertaShow("Error de acceso","Revise usuario  y contraseña", Alert.AlertType.INFORMATION);
         }
     }
 

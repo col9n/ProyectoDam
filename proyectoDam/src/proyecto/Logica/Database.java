@@ -9,6 +9,7 @@ import javafx.util.Callback;
 import proyecto.modelos.Proveedor;
 import proyecto.modelos.ProveedorEliminar;
 import proyecto.modelos.Usuario;
+import proyecto.util.Util;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -27,8 +28,8 @@ public class Database {
 
 
   private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-  //private static final String DB_CONNECTION = "jdbc:mysql://ec2-52-0-66-200.compute-1.amazonaws.com:3306";
-  private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam";
+  //private static final String DB_CONNECTION = "jdbc:mysql://ec2-52-0-66-200.compute-1.amazonaws.com:3306?autoReconnect=true&useSSL=false";
+  private static final String DB_CONNECTION = "jdbc:mysql://localhost/proyectodam?autoReconnect=true&useSSL=false";
   private static final String DB_USER = "root";
   //private static final String DB_PASSWORD = "mypass123";
   private static final String DB_PASSWORD = "root";
@@ -48,11 +49,7 @@ public class Database {
       connection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
       return connection;
     } catch (SQLException exception) {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setTitle("Error de conexion a la base de datos");
-      alert.setHeaderText(null);
-      alert.setContentText("No se puede conectar con la base de datos");
-      alert.showAndWait();
+     Util.alertaShow("Error de conexion a la base de datos","No se puede conectar con la base de datos",Alert.AlertType.ERROR);
     }
 
     return connection;
@@ -192,7 +189,6 @@ public class Database {
               }
             }
     );
-    // ObservableList<Proveedor> listaProveedores= FXCollections.observableArrayList();
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);

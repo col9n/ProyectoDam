@@ -1,26 +1,19 @@
 package proyecto.controllers.proveedores;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
+import proyecto.util.Util;
 
 import java.net.URL;
 import java.util.*;
 
 public class ModProveedorController implements Initializable {
-
-
-    private Stage stage = new Stage();
     private ObservableList<Proveedor> proveedorObservableList = Logica.getInstance().getDatabase().getTodosProveedores();
     private  List<Proveedor> listaActualizar = Collections.synchronizedList(new ArrayList());
 
@@ -49,44 +42,31 @@ public class ModProveedorController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableViewProveedor.setItems(proveedorObservableList);
 
-        textProveedor.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-
-                filtrarLista();
-            }
-        });
+        textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
 
         nombreColum.setCellFactory(TextFieldTableCell.forTableColumn());
         nombreColum.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<Proveedor, String>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<Proveedor, String> t) {
-                        Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
-                        prov.setNombre_proveedor(t.getNewValue());
-                        for (Proveedor pro : listaActualizar) {
-                            if (pro.getId_proveedor() == prov.getId_proveedor())
-                                listaActualizar.remove(pro);
-                        }
-                        listaActualizar.add(prov);
+                t -> {
+                    Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
+                    prov.setNombre_proveedor(t.getNewValue());
+                    for (Proveedor pro : listaActualizar) {
+                        if (pro.getId_proveedor() == prov.getId_proveedor())
+                            listaActualizar.remove(pro);
                     }
+                    listaActualizar.add(prov);
                 }
         );
 
         dirreccionColum.setCellFactory(TextFieldTableCell.forTableColumn());
         dirreccionColum.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<Proveedor, String>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<Proveedor, String> t) {
-                        Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
-                        prov.setDireccion_proveedor(t.getNewValue());
-                        for (Proveedor pro : listaActualizar) {
-                            if (pro.getId_proveedor() == prov.getId_proveedor())
-                                listaActualizar.remove(pro);
-                        }
-                        listaActualizar.add(prov);
+                t -> {
+                    Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
+                    prov.setDireccion_proveedor(t.getNewValue());
+                    for (Proveedor pro : listaActualizar) {
+                        if (pro.getId_proveedor() == prov.getId_proveedor())
+                            listaActualizar.remove(pro);
                     }
+                    listaActualizar.add(prov);
                 }
         );
 
@@ -126,37 +106,29 @@ public class ModProveedorController implements Initializable {
     }
 
     @FXML
-    void guardarCambio(ActionEvent event) {
+    void guardarCambio() {
         if(listaActualizar.size()>0){
-        String cambios="Estos son los cambio a guardar:\n\n";
+        StringBuilder cambios= new StringBuilder("Estos son los cambio a guardar:\n\n");
         for (Proveedor pro:listaActualizar) {
-            cambios = cambios+("-"+pro.getId_proveedor()+" nombre: "+pro.getNombre_proveedor()+" dirrecion: "+pro.getDireccion_proveedor()+"\n");
+            cambios.append("-").append(pro.getId_proveedor()).append(" nombre: ").append(pro.getNombre_proveedor()).append(" dirrecion: ").append(pro.getDireccion_proveedor()).append("\n");
         }
-        cambios=cambios+"\nFilas afectadas :"+listaActualizar.size();
-        Alert alerta=Logica.getInstance().alertaGet("Realizar cambios",cambios, Alert.AlertType.CONFIRMATION);
+        cambios.append("\nFilas afectadas :").append(listaActualizar.size());
+        Alert alerta= Util.alertaGet("Realizar cambios", cambios.toString(), Alert.AlertType.CONFIRMATION);
         Optional<ButtonType> result = alerta.showAndWait();
         if(result.get() == ButtonType.OK) {
             int afectadas=Logica.getInstance().getDatabase().updateProveedor(listaActualizar);
             if(afectadas!=listaActualizar.size())
             {
-                Logica.getInstance().alertaShow("Realizar cambios","Se produjo un error en el guardado", Alert.AlertType.ERROR);
+                Util.alertaShow("Realizar cambios","Se produjo un error en el guardado", Alert.AlertType.ERROR);
             }
             else
-                Logica.getInstance().alertaShow("Realizar cambios","Numero de cambios realizados: "+listaActualizar.size()+" ", Alert.AlertType.INFORMATION);
+                Util.alertaShow("Realizar cambios","Numero de cambios realizados: "+listaActualizar.size()+" ", Alert.AlertType.INFORMATION);
         }
         listaActualizar.clear();
         }
        else
-           Logica.getInstance().alertaShow("Realizar cambios","Ningun cambio realizado", Alert.AlertType.INFORMATION);
+            Util.alertaShow("Realizar cambios","Ningun cambio realizado", Alert.AlertType.INFORMATION);
 
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
 }

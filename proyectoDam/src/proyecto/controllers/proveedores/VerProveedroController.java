@@ -1,32 +1,24 @@
 package proyecto.controllers.proveedores;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
+
+
 import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
 
-import java.io.IOException;
+
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ResourceBundle;
 
 public class VerProveedroController implements Initializable {
-    private Stage stage = new Stage();
     private ObservableList<Proveedor> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProveedores();
 
     @FXML
@@ -43,15 +35,7 @@ public class VerProveedroController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableViewProveedor.setItems(proveedorObservableList);
 
-        textProveedor.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-
-                filtrarLista();
-            }
-        });
-
+        textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
     }
 
 
@@ -87,14 +71,6 @@ public class VerProveedroController implements Initializable {
             }
         }
         tableViewProveedor.setItems(listaFiltrada);
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
 }
