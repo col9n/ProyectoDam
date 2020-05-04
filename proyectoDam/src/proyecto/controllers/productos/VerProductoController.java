@@ -9,13 +9,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import proyecto.Logica.Logica;
 import proyecto.modelos.Producto;
-import proyecto.modelos.Proveedor;
+import proyecto.util.Util;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class VerProductoController implements Initializable {
-    private ObservableList<Producto> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProductos();
+    private ObservableList<Producto> productosObservableList =Logica.getInstance().getDatabase().getTodosProductos();
 
     @FXML
     private TableView<Producto> tableViewProveedor;
@@ -29,7 +29,7 @@ public class VerProductoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableViewProveedor.setItems(proveedorObservableList);
+        tableViewProveedor.setItems(productosObservableList);
 
         textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
     }
@@ -40,30 +40,30 @@ public class VerProductoController implements Initializable {
         ObservableList<Producto> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(producto.toString().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(producto.toString()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("ID producto"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_producto()).contains(textProveedor.getText()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_producto())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(producto.getNombre_producto().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(producto.getNombre_producto()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
 
         if(opcion.equalsIgnoreCase("ID proveedor"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_proveedor()).contains(textProveedor.getText()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }

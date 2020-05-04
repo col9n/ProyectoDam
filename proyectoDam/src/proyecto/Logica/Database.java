@@ -98,6 +98,8 @@ public class Database {
     return false;
   }
 
+
+
   public boolean proveedorExists(String proveedor) {
     Connection connection = null;
     PreparedStatement psSQL = null;
@@ -224,8 +226,6 @@ public class Database {
     return listaProveedores;
   }
 
-
-
   public int addProveedor(String nombre, String direccion) {
     Connection connection = null;
     PreparedStatement psInsertar = null;
@@ -267,7 +267,7 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       for (Proveedor prov : listaActualizar) {
-        String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? ,nombre_proveedor= ? WHERE upper(`id_proveedor`) = upper(?)";
+        String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? ,direccion_proveedor= ? WHERE upper(`id_proveedor`) = upper(?)";
         update = connection.prepareStatement(consulta);
         update.setString(1, prov.getNombre_proveedor());
         update.setString(2, prov.getDireccion_proveedor());
@@ -298,7 +298,6 @@ public class Database {
     }
     return rs;
   }
-
 
   public int deleteProveedores(List<ProveedorEliminar> listaBorrados) {
     Connection connection = null;
@@ -337,6 +336,8 @@ public class Database {
     }
     return rs;
   }
+
+
 
   public boolean productoExists(String producto) {
     Connection connection = null;
@@ -464,8 +465,6 @@ public class Database {
     return listaProveedores;
   }
 
-
-
   public int addProducto(String nombre, int id_proveedor) {
     Connection connection = null;
     PreparedStatement psInsertar = null;
@@ -538,7 +537,6 @@ public class Database {
     return rs;
   }
 
-
   public int deleteProductos(List<ProductoEliminar> listaBorrados) {
     Connection connection = null;
     PreparedStatement update = null;
@@ -550,6 +548,89 @@ public class Database {
         String consulta = "DELETE FROM `productos` WHERE `id_producto` = ?";
         update = connection.prepareStatement(consulta);
         update.setInt(1, prov.getId_producto());
+
+        rs = rs + update.executeUpdate();
+
+      }
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != update) {
+        try {
+          update.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.rollback();
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
+
+
+  public ObservableList<Stock> getStock(int centro) {
+    ObservableList<Stock> listaProveedores = FXCollections.observableArrayList();
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("SELECT `id_stock`, `id_centro`, `id_producto`, `cantidad`, `borradoLogico` FROM `stock` WHERE id_centro=?");
+      psSQL.setInt(1, centro);
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == false) {
+          int id_stock = rs.getInt("id_stock");
+          int id_centro = rs.getInt("id_centro");
+          int id_producto = rs.getInt("id_producto");
+          String cantidad = rs.getString("cantidad");
+          BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
+          listaProveedores.add(new Stock(id_stock, id_centro, id_producto,cantidad));
+        }
+      }
+      return listaProveedores;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaProveedores;
+  }
+
+  public int updateStock(List<Stock> listaActualizar) {
+    Connection connection = null;
+    PreparedStatement update = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Stock stock : listaActualizar) {
+        String consulta = "UPDATE `stock` SET `cantidad` = ? WHERE upper(`id_stock`) = upper(?)";
+        update = connection.prepareStatement(consulta);
+        update.setString(1, stock.getCantidad());
+        update.setInt(2, stock.getId_stock());
+
 
         rs = rs + update.executeUpdate();
 

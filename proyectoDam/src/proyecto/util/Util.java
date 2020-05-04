@@ -49,4 +49,8 @@ public class Util {
         if(lista.size()==0)
             button.setDisable(true);
     }
+
+    public static String stringToMayus(String palabra){
+        return palabra.toUpperCase();
+    }
 }

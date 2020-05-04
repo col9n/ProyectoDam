@@ -44,8 +44,8 @@ public class AddProveedroController implements Initializable {
 
     @FXML
     private void guardarProveedor() {
-        String nombre =nombreProveedor.getText();
-        String direecion=  direccionProveedor.getText();
+        String nombre =Util.stringToMayus(nombreProveedor.getText());
+        String direecion= Util.stringToMayus(direccionProveedor.getText());
             boolean existe= Logica.getInstance().getDatabase().proveedorExists(nombre);
             if(!existe)
             {

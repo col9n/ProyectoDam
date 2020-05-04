@@ -60,7 +60,15 @@ public class PrincipalController implements Initializable {
     @FXML
     private Button producButEli;
 
+    /*------------- Zona del tab producto --------------*/
+    @FXML
+    private BorderPane borderPaneStock;
 
+    @FXML
+    private Button stockButMod;
+
+    @FXML
+    private Button stockButVer;
 
     /* Zona de border pane pie de pagina */
 
@@ -105,6 +113,7 @@ public class PrincipalController implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
     /*------------- Zona del tab proveedor --------------*/
     @FXML
     private void provedVer(ActionEvent event) { loadCenter("/proyecto/views/proveedores/VerProveedor",borderPaneProved);
@@ -139,6 +148,15 @@ public class PrincipalController implements Initializable {
     public void producEli(ActionEvent actionEvent) { loadCenter("/proyecto/views/productos/EliProducto",borderPaneProduc);
     }
 
+
+
+    /*------------- Zona del tab stock --------------*/
+
+    public void stockdVer(ActionEvent actionEvent) {loadCenter("/proyecto/views/stock/VerStock",borderPaneStock);
+    }
+
+    public void stockMod(ActionEvent actionEvent) {loadCenter("/proyecto/views/stock/ModStock",borderPaneStock);
+    }
 
 
 }

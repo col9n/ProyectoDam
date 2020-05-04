@@ -155,26 +155,16 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPane2" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneStock" prefHeight="484.0" prefWidth="903.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="prodButAña2" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                    <Button fx:id="stockButVer" mnemonicParsing="false" onAction="#stockdVer" prefHeight="46.0" prefWidth="158.0" text="ver">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="provedButVer2" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButMod2" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButEli2" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                    <Button fx:id="stockButMod" mnemonicParsing="false" onAction="#stockMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>

@@ -8,14 +8,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import proyecto.Logica.Logica;
 import proyecto.modelos.Producto;
-import proyecto.modelos.Proveedor;
 import proyecto.util.Util;
 
 import java.net.URL;
 import java.util.*;
 
 public class ModProductoController implements Initializable {
-    private ObservableList<Producto> proveedorObservableList = Logica.getInstance().getDatabase().getTodosProductos();
+    private ObservableList<Producto> productosObservableList = Logica.getInstance().getDatabase().getTodosProductos();
     private  List<Producto> listaActualizar = Collections.synchronizedList(new ArrayList());
 
 
@@ -37,7 +36,7 @@ public class ModProductoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableViewProveedor.setItems(proveedorObservableList);
+        tableViewProveedor.setItems(productosObservableList);
 
         textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
 
@@ -45,7 +44,7 @@ public class ModProductoController implements Initializable {
         nombreColum.setOnEditCommit(
                 t -> {
                     Producto prov = t.getTableView().getSelectionModel().getSelectedItem();
-                    prov.setNombre_producto(t.getNewValue());
+                    prov.setNombre_producto(Util.stringToMayus(t.getNewValue()));
                     for (Producto pro : listaActualizar) {
                         if (pro.getId_producto() == prov.getId_producto())
                             listaActualizar.remove(pro);
@@ -65,30 +64,30 @@ public class ModProductoController implements Initializable {
         ObservableList<Producto> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(producto.toString().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(producto.toString()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("ID producto"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_producto()).contains(textProveedor.getText()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_producto())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(producto.getNombre_producto().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(producto.getNombre_producto()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
 
         if(opcion.equalsIgnoreCase("ID proveedor"))
         {
-            for (Producto producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_proveedor()).contains(textProveedor.getText()))
+            for (Producto producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
@@ -100,7 +99,7 @@ public class ModProductoController implements Initializable {
         if(listaActualizar.size()>0){
         StringBuilder cambios= new StringBuilder("Estos son los cambio a guardar:\n\n");
         for (Producto pro:listaActualizar) {
-            cambios.append("-").append(pro.getId_producto()).append(" nombre: ").append(pro.getNombre_producto()).append(" id proveedor: ").append(pro.getId_proveedor()).append("\n");
+            cambios.append("-").append(pro.getId_producto()).append(" nombre: ").append(Util.stringToMayus(pro.getNombre_producto())).append(" id proveedor: ").append(pro.getId_proveedor()).append("\n");
         }
         cambios.append("\nFilas afectadas :").append(listaActualizar.size());
         Alert alerta= Util.alertaGet("Realizar cambios", cambios.toString(), Alert.AlertType.CONFIRMATION);
@@ -118,6 +117,9 @@ public class ModProductoController implements Initializable {
         }
        else
             Util.alertaShow("Realizar cambios","Ningun cambio realizado", Alert.AlertType.INFORMATION);
+        tableViewProveedor.setItems(Logica.getInstance().getDatabase().getTodosProductos());
+        listaActualizar.clear();
+        tableViewProveedor.refresh();
 
     }
 

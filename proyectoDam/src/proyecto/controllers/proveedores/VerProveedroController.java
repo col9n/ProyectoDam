@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 
 import proyecto.Logica.Logica;
 import proyecto.modelos.Proveedor;
+import proyecto.util.Util;
 
 
 import java.net.URL;
@@ -45,28 +46,28 @@ public class VerProveedroController implements Initializable {
         if(opcion.equalsIgnoreCase("Todo"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.toString().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+                if(Util.stringToMayus(proveedor.toString()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("ID"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(String.valueOf(proveedor.getId_proveedor()).contains(textProveedor.getText()))
+                if(Util.stringToMayus(String.valueOf(proveedor.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.getNombre_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+                if(Util.stringToMayus(proveedor.getNombre_proveedor()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("Direccion"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.getDireccion_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+                if(Util.stringToMayus(proveedor.getDireccion_proveedor()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }

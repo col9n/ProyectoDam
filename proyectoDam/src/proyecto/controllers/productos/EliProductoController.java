@@ -10,7 +10,6 @@ import proyecto.Logica.Logica;
 import proyecto.modelos.Producto;
 import proyecto.modelos.ProductoEliminar;
 import proyecto.modelos.Proveedor;
-import proyecto.modelos.ProveedorEliminar;
 import proyecto.util.Util;
 
 import java.net.URL;
@@ -22,7 +21,7 @@ import java.util.ResourceBundle;
 import static proyecto.util.Util.enableButtonListaContine;
 
 public class EliProductoController implements Initializable {
-    private ObservableList<ProductoEliminar> proveedorObservableList=Logica.getInstance().getDatabase().getTodosProductosEliminar();
+    private ObservableList<ProductoEliminar> productosObservableList =Logica.getInstance().getDatabase().getTodosProductosEliminar();
     private List <ProductoEliminar> listaBorrar = new <Proveedor> ArrayList();
 
     @FXML
@@ -41,15 +40,15 @@ public class EliProductoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableViewProveedor.setItems(proveedorObservableList);
+        tableViewProveedor.setItems(productosObservableList);
 
         textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
 
-        proveedorObservableList.addListener((ListChangeListener<Producto>) c -> {
+        productosObservableList.addListener((ListChangeListener<Producto>) c -> {
             while (c.next()) {
                 if (c.wasUpdated()) {
                     for (int i = c.getFrom(); i < c.getTo(); ++i) {
-                        ProductoEliminar prov =proveedorObservableList.get(i);
+                        ProductoEliminar prov = productosObservableList.get(i);
                         listaBorrar.remove(prov);
                         if(!prov.isBorradoLogico()) {
                             listaBorrar.add(prov);
@@ -70,30 +69,30 @@ public class EliProductoController implements Initializable {
         ObservableList<ProductoEliminar> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (ProductoEliminar producto:proveedorObservableList) {
-                if(producto.toString().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (ProductoEliminar producto: productosObservableList) {
+                if(Util.stringToMayus(producto.toString()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("ID producto"))
         {
-            for (ProductoEliminar producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_producto()).contains(textProveedor.getText()))
+            for (ProductoEliminar producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_producto())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
-            for (ProductoEliminar producto:proveedorObservableList) {
-                if(producto.getNombre_producto().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+            for (ProductoEliminar producto: productosObservableList) {
+                if(Util.stringToMayus(producto.getNombre_producto()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
 
         if(opcion.equalsIgnoreCase("ID proveedor"))
         {
-            for (ProductoEliminar producto:proveedorObservableList) {
-                if(String.valueOf(producto.getId_proveedor()).contains(textProveedor.getText()))
+            for (ProductoEliminar producto: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(producto.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(producto);
             }
         }
@@ -105,7 +104,7 @@ public class EliProductoController implements Initializable {
     void eliminar() {
         StringBuilder borradosBuilder = new StringBuilder("Estos son los proveedores a borrar:\n\n");
         for (Producto pro: listaBorrar) {
-            borradosBuilder.append("-").append(pro.getId_producto()).append(" nombre: ").append(pro.getNombre_producto()).append(" id proveedor: ").append(pro.getId_proveedor()).append("\n");
+            borradosBuilder.append("-").append(pro.getId_producto()).append(" nombre: ").append(Util.stringToMayus(pro.getNombre_producto())).append(" id proveedor: ").append(pro.getId_proveedor()).append("\n");
             }
         String borrados = borradosBuilder.toString();
         borrados=borrados+"\nFilas afectadas :"+ listaBorrar.size();
@@ -126,7 +125,7 @@ public class EliProductoController implements Initializable {
     private void actualizarTableView(){
         for(ProductoEliminar prov:listaBorrar)
         {
-            proveedorObservableList.remove(prov);
+            productosObservableList.remove(prov);
         }
         listaBorrar.clear();
        enableButtonListaContine(listaBorrar,eliminar);

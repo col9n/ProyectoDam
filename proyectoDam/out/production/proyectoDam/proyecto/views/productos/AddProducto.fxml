@@ -11,8 +11,8 @@
       <Label layoutX="137.0" layoutY="85.0" prefHeight="17.0" prefWidth="323.0" text="Nombre del producto" />
       <Label layoutX="137.0" layoutY="183.0" prefHeight="17.0" prefWidth="323.0" text="Nombre del proveedor" />
       <TextField fx:id="nombreProducto" layoutX="137.0" layoutY="124.0" prefHeight="25.0" prefWidth="323.0" />
-      <Button fx:id="guardarProveedor" layoutX="137.0" layoutY="290.0" mnemonicParsing="false" onAction="#guardarProveedor" text="Guardar" />
-      <Button fx:id="limpiarProveedor" layoutX="412.0" layoutY="290.0" mnemonicParsing="false" onAction="#limpiarAddProveedor" text="Limpiar" />
+      <Button fx:id="guardarProducto" layoutX="137.0" layoutY="290.0" mnemonicParsing="false" onAction="#guardarProveedor" text="Guardar" />
+      <Button fx:id="limpiarProducto" layoutX="412.0" layoutY="290.0" mnemonicParsing="false" onAction="#limpiarAddProveedor" text="Limpiar" />
       <ComboBox fx:id="nombreProveedor" layoutX="137.0" layoutY="220.0" prefHeight="25.0" prefWidth="323.0" />
    </children>
 </Pane>

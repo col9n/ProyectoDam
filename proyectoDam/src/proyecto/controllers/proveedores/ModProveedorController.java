@@ -48,7 +48,7 @@ public class ModProveedorController implements Initializable {
         nombreColum.setOnEditCommit(
                 t -> {
                     Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
-                    prov.setNombre_proveedor(t.getNewValue());
+                    prov.setNombre_proveedor(Util.stringToMayus(t.getNewValue()));
                     for (Proveedor pro : listaActualizar) {
                         if (pro.getId_proveedor() == prov.getId_proveedor())
                             listaActualizar.remove(pro);
@@ -61,7 +61,7 @@ public class ModProveedorController implements Initializable {
         dirreccionColum.setOnEditCommit(
                 t -> {
                     Proveedor prov = t.getTableView().getSelectionModel().getSelectedItem();
-                    prov.setDireccion_proveedor(t.getNewValue());
+                    prov.setDireccion_proveedor(Util.stringToMayus(t.getNewValue()));
                     for (Proveedor pro : listaActualizar) {
                         if (pro.getId_proveedor() == prov.getId_proveedor())
                             listaActualizar.remove(pro);
@@ -76,29 +76,33 @@ public class ModProveedorController implements Initializable {
 
 
     private void filtrarLista() {
-        String opcion = combobox.getSelectionModel().getSelectedItem();
-        ObservableList<Proveedor> listaFiltrada = FXCollections.observableArrayList();
-        if (opcion.equalsIgnoreCase("Todo")) {
-            for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.verInfor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+        String opcion=combobox.getSelectionModel().getSelectedItem();
+        ObservableList<Proveedor> listaFiltrada= FXCollections.observableArrayList();
+        if(opcion.equalsIgnoreCase("Todo"))
+        {
+            for (Proveedor proveedor:proveedorObservableList) {
+                if(Util.stringToMayus(proveedor.toString()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
-        if (opcion.equalsIgnoreCase("ID")) {
-            for (Proveedor proveedor : proveedorObservableList) {
-                if (String.valueOf(proveedor.getId_proveedor()).contains(textProveedor.getText()))
+        if(opcion.equalsIgnoreCase("ID"))
+        {
+            for (Proveedor proveedor:proveedorObservableList) {
+                if(Util.stringToMayus(String.valueOf(proveedor.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
-        if (opcion.equalsIgnoreCase("Nombre")) {
-            for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.getNombre_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+        if(opcion.equalsIgnoreCase("Nombre"))
+        {
+            for (Proveedor proveedor:proveedorObservableList) {
+                if(Util.stringToMayus(proveedor.getNombre_proveedor()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
-        if (opcion.equalsIgnoreCase("Direccion")) {
-            for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.getDireccion_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
+        if(opcion.equalsIgnoreCase("Direccion"))
+        {
+            for (Proveedor proveedor:proveedorObservableList) {
+                if(Util.stringToMayus(proveedor.getDireccion_proveedor()).contains(Util.stringToMayus(textProveedor.getText())))
                     listaFiltrada.add(proveedor);
             }
         }
@@ -121,13 +125,17 @@ public class ModProveedorController implements Initializable {
             {
                 Util.alertaShow("Realizar cambios","Se produjo un error en el guardado", Alert.AlertType.ERROR);
             }
-            else
-                Util.alertaShow("Realizar cambios","Numero de cambios realizados: "+listaActualizar.size()+" ", Alert.AlertType.INFORMATION);
+            else {
+                Util.alertaShow("Realizar cambios", "Numero de cambios realizados: " + listaActualizar.size() + " ", Alert.AlertType.INFORMATION);
+            }
         }
-        listaActualizar.clear();
+
         }
        else
             Util.alertaShow("Realizar cambios","Ningun cambio realizado", Alert.AlertType.INFORMATION);
+        tableViewProveedor.setItems(Logica.getInstance().getDatabase().getTodosProveedores());
+        listaActualizar.clear();
+        tableViewProveedor.refresh();
 
     }
 

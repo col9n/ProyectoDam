@@ -13,7 +13,6 @@ import proyecto.util.Util;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static proyecto.util.Util.activacionBoton;
 import static proyecto.util.Util.activacionBotonComboBox;
 
 public class AddProductoController implements Initializable {
@@ -22,10 +21,10 @@ public class AddProductoController implements Initializable {
     private TextField nombreProducto;
 
     @FXML
-    private Button guardarProveedor;
+    private Button guardarProducto;
 
     @FXML
-    private Button limpiarProveedor;
+    private Button limpiarProducto;
 
     @FXML
     private ComboBox<Proveedor> nombreProveedor;
@@ -34,7 +33,7 @@ public class AddProductoController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nombreProveedor.setItems(Logica.getInstance().getDatabase().getTodosProveedores());
-        activacionBotonComboBox(nombreProducto,nombreProveedor,guardarProveedor);
+        activacionBotonComboBox(nombreProducto,nombreProveedor, guardarProducto);
     }
 
     @FXML
@@ -44,20 +43,20 @@ public class AddProductoController implements Initializable {
 
     @FXML
     private void guardarProveedor() {
-        String nombre =nombreProducto.getText();
+        String nombre =Util.stringToMayus(nombreProducto.getText());
         Proveedor proveedor=  nombreProveedor.getSelectionModel().getSelectedItem();
             boolean existe= Logica.getInstance().getDatabase().productoExists(nombre);
             if(!existe)
             {
                 int inserto = Logica.getInstance().getDatabase().addProducto(nombre, proveedor.getId_proveedor());
                 if (inserto != 0)
-                    Util.alertaShow("Consulta realizada", "El producto fue guardado con nombre: "+nombre+ " y proveedor: "+proveedor.getNombre_proveedor(), Alert.AlertType.INFORMATION);
+                    Util.alertaShow("Consulta realizada", "El producto fue guardado con nombre: "+nombre+ " y proveedor: "+Util.stringToMayus(proveedor.getNombre_proveedor()), Alert.AlertType.INFORMATION);
                 else
                     Util.alertaShow("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
             }
             else
                 Util.alertaShow("Campos vacios","El proveedor :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
-        limpiarProveedor.fire();
+        limpiarProducto.fire();
 
     }
 
