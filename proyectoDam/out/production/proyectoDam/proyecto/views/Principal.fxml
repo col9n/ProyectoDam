@@ -63,16 +63,16 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                             <children>
-                        <BorderPane fx:id="borderPane" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneProved" prefHeight="484.0" prefWidth="903.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                                <Button fx:id="prodButAña" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                                <Button fx:id="provedButAdd" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                                <Button fx:id="provedButVer" mnemonicParsing="false" onAction="#prodVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                                <Button fx:id="provedButVer" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
@@ -105,11 +105,236 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Productos">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
+            <Tab text="Productos">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                     <children>
+                        <BorderPane fx:id="borderPaneProduc" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="producButAdd" mnemonicParsing="false" onAction="#producAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="producButVer" mnemonicParsing="false" onAction="#producVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="producButMod" mnemonicParsing="false" onAction="#producMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="producButEli" mnemonicParsing="false" onAction="#producEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Stock">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                     <children>
+                        <BorderPane fx:id="borderPane2" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="prodButAña2" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButVer2" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButMod2" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButEli2" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Centros">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                     <children>
+                        <BorderPane fx:id="borderPane21" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="prodButAña21" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButVer21" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButMod21" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButEli21" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Usuarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                     <children>
+                        <BorderPane fx:id="borderPane211" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="prodButAña211" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButVer211" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButMod211" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButEli211" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Traspasos">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                     <children>
+                        <BorderPane fx:id="borderPane2111" prefHeight="484.0" prefWidth="903.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="prodButAña2111" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButVer2111" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButMod2111" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="provedButEli2111" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <top>
+                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
+                              </HBox>
+                           </top>
+                           <center>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
             </tabs>
         </TabPane>
         <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #121212;" VBox.vgrow="NEVER">

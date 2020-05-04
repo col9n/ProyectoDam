@@ -3,55 +3,62 @@ package proyecto.controllers;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Proveedor;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ResourceBundle;
 
 public class PrincipalController implements Initializable {
     private Stage stage = new Stage();
     private Timeline timeline = Logica.getInstance().getTimeline();
 
-    /* Zona de border pane medio pagina */
-    @FXML
-    private BorderPane borderPane;
+
+
 
     /*------------- Zona del tab proveedor --------------*/
-    /* Zona de ver provedor*/
+    @FXML
+    private BorderPane borderPaneProved;
+
+    @FXML
+    private Button provedButAdd;
+
     @FXML
     private Button provedButVer;
 
-    /* Zona de añadir provedor*/
-    @FXML
-    private Button prodButAña;
-
-
-
-
-    /* Zona de mod provedor*/
     @FXML
     private Button provedButMod;
 
-    /* Zona de eliminar provedor*/
     @FXML
     private Button provedButEli;
+
+    /*------------- Zona del tab producto --------------*/
+    @FXML
+    private BorderPane borderPaneProduc;
+
+    @FXML
+    private Button producButAdd;
+
+    @FXML
+    private Button producButVer;
+
+    @FXML
+    private Button producButMod;
+
+    @FXML
+    private Button producButEli;
 
 
 
@@ -72,50 +79,22 @@ public class PrincipalController implements Initializable {
         setFechaYHora();
     }
 
-    /*------------- Zona del tab proveedor --------------*/
-
-    /* Zona de ver provedor*/
-    @FXML
-    private void prodVer(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/VerProveedor");
-
+    public Stage getStage() {
+        return stage;
     }
 
-
-    /* Zona de añadir provedor*/
-    @FXML
-    private void provedAdd(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/AddProveedor");
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-
-
-    /* Zona de mod provedor*/
-    @FXML
-    private void provedMod(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/ModProveedor");
-    }
-
-    /* Zona de eliminar provedor*/
-    @FXML
-    private void provedEli(ActionEvent event) {
-        loadCenter("/proyecto/views/proveedores/EliProveedor");
-
-
-    }
-
-
-
-    /*------------- Zona del tab producto --------------*/
-
-    private void loadCenter(String nombreFxml) {
+    private void loadCenter(String nombreFxml,BorderPane pane) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource(nombreFxml + ".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        borderPane.setCenter(root);
+        pane.setCenter(root);
     }
 
     private void setFechaYHora() {
@@ -126,15 +105,39 @@ public class PrincipalController implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
-
-    public Stage getStage() {
-        return stage;
+    /*------------- Zona del tab proveedor --------------*/
+    @FXML
+    private void provedVer(ActionEvent event) { loadCenter("/proyecto/views/proveedores/VerProveedor",borderPaneProved);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    @FXML
+    private void provedAdd(ActionEvent event) { loadCenter("/proyecto/views/proveedores/AddProveedor",borderPaneProved);
     }
 
+    @FXML
+    private void provedMod(ActionEvent event) { loadCenter("/proyecto/views/proveedores/ModProveedor",borderPaneProved);
+    }
+
+    @FXML
+    private void provedEli(ActionEvent event) { loadCenter("/proyecto/views/proveedores/EliProveedor",borderPaneProved);
+    }
+
+    /*------------- Zona del tab producto --------------*/
+    @FXML
+    public void producAdd(ActionEvent actionEvent) { loadCenter("/proyecto/views/productos/AddProducto",borderPaneProduc);
+    }
+
+    @FXML
+    public void producVer(ActionEvent actionEvent) { loadCenter("/proyecto/views/productos/VerProducto",borderPaneProduc);
+    }
+
+    @FXML
+    public void producMod(ActionEvent actionEvent) { loadCenter("/proyecto/views/productos/ModProducto",borderPaneProduc);
+    }
+
+    @FXML
+    public void producEli(ActionEvent actionEvent) { loadCenter("/proyecto/views/productos/EliProducto",borderPaneProduc);
+    }
 
 
 

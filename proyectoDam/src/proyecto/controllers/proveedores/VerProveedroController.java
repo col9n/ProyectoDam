@@ -45,7 +45,7 @@ public class VerProveedroController implements Initializable {
         if(opcion.equalsIgnoreCase("Todo"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.toString().contains(textProveedor.getText()))
+                if(proveedor.toString().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }
@@ -59,14 +59,14 @@ public class VerProveedroController implements Initializable {
         if(opcion.equalsIgnoreCase("Nombre"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.getNombre_proveedor().contains(textProveedor.getText()))
+                if(proveedor.getNombre_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }
         if(opcion.equalsIgnoreCase("Direccion"))
         {
             for (Proveedor proveedor:proveedorObservableList) {
-                if(proveedor.getDireccion_proveedor().contains(textProveedor.getText()))
+                if(proveedor.getDireccion_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }

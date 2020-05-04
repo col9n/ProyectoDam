@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.util.Callback;
-import proyecto.modelos.Proveedor;
-import proyecto.modelos.ProveedorEliminar;
-import proyecto.modelos.Usuario;
+import proyecto.modelos.*;
 import proyecto.util.Util;
 
 import java.sql.*;
@@ -106,7 +104,7 @@ public class Database {
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `proveedores` where nombre_proveedor=?");
+      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `proveedores` where upper(nombre_proveedor)=upper(?)");
       psSQL.setString(1, proveedor);
 
       ResultSet rs = psSQL.executeQuery();
@@ -269,7 +267,7 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       for (Proveedor prov : listaActualizar) {
-        String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? , nombre_proveedor= ? WHERE `id_proveedor` = ?";
+        String consulta = "UPDATE `proveedores` SET `nombre_proveedor` = ? ,nombre_proveedor= ? WHERE upper(`id_proveedor`) = upper(?)";
         update = connection.prepareStatement(consulta);
         update.setString(1, prov.getNombre_proveedor());
         update.setString(2, prov.getDireccion_proveedor());
@@ -310,9 +308,248 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       for (Proveedor prov : listaBorrados) {
-        String consulta = "DELETE FROM `proveedores` WHERE `id_proveedor` = ?";
+        String consulta = "DELETE FROM `proveedores` WHERE upper(`id_proveedor`) = upper(?)";
         update = connection.prepareStatement(consulta);
         update.setInt(1, prov.getId_proveedor());
+
+        rs = rs + update.executeUpdate();
+
+      }
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != update) {
+        try {
+          update.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.rollback();
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
+  public boolean productoExists(String producto) {
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `productos` where upper(nombre_producto)=upper(?)");
+      psSQL.setString(1, producto);
+
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == true)
+          return false;
+        return true;
+      }
+      return false;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return false;
+  }
+
+  public ObservableList<Producto> getTodosProductos() {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ObservableList<Producto> listaProveedores = FXCollections.observableArrayList();
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos`";
+
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == false) {
+          int id_producto = rs.getInt("id_producto");
+          String nombre_producto = rs.getString("nombre_producto");
+          int id_proveedor = rs.getInt("id_proveedor");
+          listaProveedores.add(new Producto(id_producto, nombre_producto, id_proveedor));
+        }
+      }
+      return listaProveedores;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != statement) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaProveedores;
+  }
+
+  public ObservableList<ProductoEliminar> getTodosProductosEliminar() {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ObservableList<ProductoEliminar> listaProveedores = FXCollections.observableArrayList(
+            new Callback<ProductoEliminar, Observable[]>() {
+              @Override
+              public Observable[] call(ProductoEliminar param) {
+                return new Observable[]{
+                        param.borradoLogicoProperty()
+                };
+              }
+            }
+    );
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos`";
+
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == false) {
+          int id_producto = rs.getInt("id_producto");
+          String nombre_producto = rs.getString("nombre_producto");
+          int id_proveedor = rs.getInt("id_proveedor");
+          BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
+          listaProveedores.add(new ProductoEliminar(id_producto, nombre_producto, id_proveedor, borradoLogico));
+        }
+      }
+      return listaProveedores;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != statement) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaProveedores;
+  }
+
+
+
+  public int addProducto(String nombre, int id_proveedor) {
+    Connection connection = null;
+    PreparedStatement psInsertar = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psInsertar = connection.prepareStatement("INSERT INTO `productos` (`nombre_producto`, `id_proveedor`,`borradoLogico`) VALUES (?, ?, '0')");
+      psInsertar.setString(1, nombre);
+      psInsertar.setInt(2, id_proveedor);
+      rs = psInsertar.executeUpdate();
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psInsertar) {
+        try {
+          psInsertar.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
+  public int updateProducto(List<Producto> listaActualizar) {
+    Connection connection = null;
+    PreparedStatement update = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Producto prov : listaActualizar) {
+        String consulta = "UPDATE `productos` SET `nombre_producto` = upper(?)  WHERE `id_producto` = ?";
+        update = connection.prepareStatement(consulta);
+        update.setString(1, prov.getNombre_producto());
+        update.setInt(2, prov.getId_producto());
+
+        rs = rs + update.executeUpdate();
+
+      }
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != update) {
+        try {
+          update.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.rollback();
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
+
+  public int deleteProductos(List<ProductoEliminar> listaBorrados) {
+    Connection connection = null;
+    PreparedStatement update = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Producto prov : listaBorrados) {
+        String consulta = "DELETE FROM `productos` WHERE `id_producto` = ?";
+        update = connection.prepareStatement(consulta);
+        update.setInt(1, prov.getId_producto());
 
         rs = rs + update.executeUpdate();
 

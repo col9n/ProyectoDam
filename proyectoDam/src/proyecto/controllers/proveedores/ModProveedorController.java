@@ -80,7 +80,7 @@ public class ModProveedorController implements Initializable {
         ObservableList<Proveedor> listaFiltrada = FXCollections.observableArrayList();
         if (opcion.equalsIgnoreCase("Todo")) {
             for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.toString().contains(textProveedor.getText()))
+                if (proveedor.verInfor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }
@@ -92,13 +92,13 @@ public class ModProveedorController implements Initializable {
         }
         if (opcion.equalsIgnoreCase("Nombre")) {
             for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.getNombre_proveedor().contains(textProveedor.getText()))
+                if (proveedor.getNombre_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }
         if (opcion.equalsIgnoreCase("Direccion")) {
             for (Proveedor proveedor : proveedorObservableList) {
-                if (proveedor.getDireccion_proveedor().contains(textProveedor.getText()))
+                if (proveedor.getDireccion_proveedor().toUpperCase().contains(textProveedor.getText().toUpperCase()))
                     listaFiltrada.add(proveedor);
             }
         }

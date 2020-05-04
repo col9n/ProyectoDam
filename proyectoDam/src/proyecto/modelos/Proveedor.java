@@ -46,6 +46,10 @@ public class Proveedor {
 
     @Override
     public String toString() {
+        return "ID "+this.id_proveedor+" nombre "+this.nombre_proveedor;
+    }
+
+    public String verInfor(){
         return "Proveedor{" +
                 "id_proveedor=" + id_proveedor +
                 ", nombre_proveedor='" + nombre_proveedor + '\'' +

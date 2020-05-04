@@ -1,9 +1,6 @@
 package proyecto.util;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Control;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
@@ -29,6 +26,16 @@ public class Util {
 
     public static void activacionBoton(TextField textField, TextField textField1, Button button){
        ValidationSupport validationSupport = new ValidationSupport();
+        validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        textField.setPromptText("No puede estar vacio");
+        validationSupport.registerValidator(textField1, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        textField1.setPromptText("No puede estar vacio");
+        button.disableProperty().bind(validationSupport.invalidProperty());
+
+    }
+
+    public static void activacionBotonComboBox(TextField textField, ComboBox textField1, Button button){
+        ValidationSupport validationSupport = new ValidationSupport();
         validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));
         textField.setPromptText("No puede estar vacio");
         validationSupport.registerValidator(textField1, Validator.createEmptyValidator("Este campo no puede estar vacío"));
