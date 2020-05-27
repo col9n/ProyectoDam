@@ -34,7 +34,7 @@ public class Util {
 
     }
 
-    public static void activacionBotonComboBox(TextField textField, ComboBox textField1, Button button){
+    public static void activacionBotonComboBoxProduct(TextField textField, ComboBox textField1, Button button){
         ValidationSupport validationSupport = new ValidationSupport();
         validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));
         textField.setPromptText("No puede estar vacio");
@@ -43,6 +43,25 @@ public class Util {
         button.disableProperty().bind(validationSupport.invalidProperty());
 
     }
+
+    public static void activacionBotonComboBoxTraspasoAdd(TextField textField, ComboBox combobox,ComboBox combobox1, Button button){
+        ValidationSupport validationSupport = new ValidationSupport();
+        validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        textField.setPromptText("No puede estar vacio");
+        validationSupport.registerValidator(combobox, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        combobox.setPromptText("No puede estar vacio");
+        validationSupport.registerValidator(combobox1, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        combobox1.setPromptText("No puede estar vacio");
+        button.disableProperty().bind(validationSupport.invalidProperty());
+    }
+
+    public static void activacionBotonComboBoxTraspasoEli(TableView tableView, Button button){
+        if(tableView.getItems().size()<=0)
+            button.setDisable(true);
+        else
+            button.setDisable(false);
+    }
+
 
     public static void enableButtonListaContine(List lista, Button button){
         button.setDisable(false);

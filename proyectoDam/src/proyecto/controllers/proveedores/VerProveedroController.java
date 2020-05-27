@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 
 
 import proyecto.Logica.Logica;
-import proyecto.modelos.Proveedor;
+import proyecto.modelos.proveedores.Proveedor;
 import proyecto.util.Util;
 
 

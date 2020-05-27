@@ -8,8 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Proveedor;
-import proyecto.modelos.Stock;
+import proyecto.modelos.stock.Stock;
 import proyecto.util.Util;
 
 import java.net.URL;

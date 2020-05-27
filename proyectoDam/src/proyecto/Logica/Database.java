@@ -7,14 +7,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.util.Callback;
 import proyecto.modelos.*;
+import proyecto.modelos.productos.Producto;
+import proyecto.modelos.productos.ProductoEliminar;
+import proyecto.modelos.proveedores.Proveedor;
+import proyecto.modelos.proveedores.ProveedorEliminar;
+import proyecto.modelos.stock.Stock;
+import proyecto.modelos.traspasos.Ordenes;
+import proyecto.modelos.traspasos.OrdenesEliminar;
 import proyecto.util.Util;
 
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Database
@@ -144,7 +152,7 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql = "SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores`";
+      String sql = "SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores`  where  borradoLogico=0 order by id_proveedor";
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
@@ -193,17 +201,15 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql = "SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores`";
+      String sql = "SELECT `id_proveedor`,`nombre_proveedor`,`direccion_proveedor`,`borradoLogico` FROM `proveedores` where  borradoLogico=0 order by id_proveedor";
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        if (rs.getBoolean("borradoLogico") == false) {
           int id_proveedor = rs.getInt("id_proveedor");
           String nombre_proveedor = rs.getString("nombre_proveedor");
           String direccion_proveedor = rs.getString("direccion_proveedor");
           BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
           listaProveedores.add(new ProveedorEliminar(id_proveedor, nombre_proveedor, direccion_proveedor, borradoLogico));
-        }
       }
       return listaProveedores;
     } catch (SQLException exception) {
@@ -345,7 +351,7 @@ public class Database {
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `productos` where upper(nombre_producto)=upper(?)");
+      psSQL = connection.prepareStatement("SELECT `borradoLogico` FROM `productos` where upper(nombre_producto)=upper(?) ");
       psSQL.setString(1, producto);
 
       ResultSet rs = psSQL.executeQuery();
@@ -383,7 +389,7 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos`";
+      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos`  where  borradoLogico=0 order by id_producto";
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
@@ -432,17 +438,15 @@ public class Database {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
       Statement stmt = connection.createStatement();
-      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos`";
+      String sql = "SELECT `id_producto`,`nombre_producto`,`id_proveedor`,`borradoLogico` FROM `productos` where  borradoLogico=0 order by id_producto";
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        if (rs.getBoolean("borradoLogico") == false) {
           int id_producto = rs.getInt("id_producto");
           String nombre_producto = rs.getString("nombre_producto");
           int id_proveedor = rs.getInt("id_proveedor");
           BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
           listaProveedores.add(new ProductoEliminar(id_producto, nombre_producto, id_proveedor, borradoLogico));
-        }
       }
       return listaProveedores;
     } catch (SQLException exception) {
@@ -584,18 +588,16 @@ public class Database {
     try {
       connection = Database.getDBConnection();
       connection.setAutoCommit(false);
-      psSQL = connection.prepareStatement("SELECT `id_stock`, `id_centro`, `id_producto`, `cantidad`, `borradoLogico` FROM `stock` WHERE id_centro=?");
+      psSQL = connection.prepareStatement("SELECT `id_stock`, `id_centro`, `id_producto`, `cantidad`, `borradoLogico` FROM `stock` WHERE id_centro=? and (borradoLogico=0) order by id_stock");
       psSQL.setInt(1, centro);
       ResultSet rs = psSQL.executeQuery();
       while (rs.next()) {
-        if (rs.getBoolean("borradoLogico") == false) {
           int id_stock = rs.getInt("id_stock");
           int id_centro = rs.getInt("id_centro");
           int id_producto = rs.getInt("id_producto");
           String cantidad = rs.getString("cantidad");
           BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
           listaProveedores.add(new Stock(id_stock, id_centro, id_producto,cantidad));
-        }
       }
       return listaProveedores;
     } catch (SQLException exception) {
@@ -657,4 +659,359 @@ public class Database {
     }
     return rs;
   }
+
+
+  public ObservableList<Producto> getTodosProductosCantidad(int centro) {
+    ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement(" select a.id_producto,a.nombre_producto,b.cantidad from productos a,stock b where (a.id_producto=b.id_producto) and (b.id_centro=?) and (a.borradoLogico=0) and (b.borradoLogico=0) and (b.cantidad>0) order by a.id_producto");
+      psSQL.setInt(1, centro);
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()){
+          int id_producto = rs.getInt("a.id_producto");
+          String nombre_producto = rs.getString("a.nombre_producto");
+          int cantidad = rs.getInt("b.cantidad");
+          listaProductos.add(new Producto(id_producto, cantidad, nombre_producto));
+      }
+      return listaProductos;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaProductos;
+  }
+
+  public ObservableList<Centro> getTodosCentrosNoPropios(int centro) {
+    ObservableList<Centro> listaCentro = FXCollections.observableArrayList();
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("select id_centro,direccion_centro from centros a where (id_centro!=?) and (borradoLogico=0) order by id_centro");
+      psSQL.setInt(1, centro);
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()){
+        int id_centro = rs.getInt("id_centro");
+        String direccion = rs.getString("direccion_centro");
+        listaCentro.add(new Centro(id_centro,direccion));
+      }
+      return listaCentro;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaCentro;
+  }
+
+
+
+  public boolean generarOrden(Ordenes orden,ObservableList<Producto> lista){
+  Connection connection = Database.getDBConnection();
+  Savepoint savepoint = null;
+  int ordenContenido = -1;
+  try {
+    savepoint=connection.setSavepoint();
+
+    PreparedStatement psInsertar = null;
+    System.out.println("s1 I");
+    try {
+      connection.setAutoCommit(false);
+      psInsertar = connection.prepareStatement("INSERT INTO `ordenes` ( `centro_salida`, `centro_destino`, `fecha`, `id_usuario`, `estado`, `borradoLogico`) VALUES ( ?, ?, ?, ?, ?, '0')");
+      psInsertar.setInt(1, orden.getCentro_salida());
+      psInsertar.setInt(2, orden.getCentro_destino());
+      psInsertar.setDate(3, Date.valueOf(orden.getFecha()));
+      psInsertar.setInt(4, orden.getId_usuario());
+      psInsertar.setString(5, orden.getEstado().toString());
+      psInsertar.executeUpdate();
+      connection.commit();
+      System.out.println("s1 out");
+    } finally {
+      if (psInsertar != null) {
+        psInsertar.close();
+      }
+    }
+
+    System.out.println("s2 I");
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("Select max(id_orden) from ordenes WHERE id_usuario=" + Logica.getInstance().getUsuario().getId_usuario());
+
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()) {
+        ordenContenido = rs.getInt(1);
+      }
+      System.out.println("s2 O");
+      connection.commit();
+    } finally {
+      if (psSQL != null) {
+        psSQL.close();
+      }
+    }
+
+    System.out.println("s3 I");
+    PreparedStatement psInsertarContenido = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Producto prod : lista) {
+        psInsertarContenido = connection.prepareStatement("INSERT INTO `contenidoorden` ( `id_orden`, `id_producto`, `cantidadorden`, `borradoLogico`) VALUES (?, ?, ?, '0')");
+        psInsertarContenido.setInt(1, ordenContenido);
+        psInsertarContenido.setInt(2, prod.getId_producto());
+        psInsertarContenido.setInt(3, prod.getCantidad());
+      }
+      psInsertarContenido.executeUpdate();
+      connection.commit();
+      System.out.println("s3 O");
+    } finally {
+      if (psInsertarContenido != null) {
+        psInsertarContenido.close();
+      }
+    }
+
+    System.out.println("s4 I");
+    PreparedStatement updateStock = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      for (Producto prod : lista) {
+        String consulta = "UPDATE `stock` SET `cantidad` = cantidad-? WHERE (upper(`id_producto`) = upper(?)) and (upper(`id_centro`)=upper(?))";
+        updateStock = connection.prepareStatement(consulta);
+        updateStock.setInt(1, prod.getCantidad());
+        updateStock.setInt(2, prod.getId_producto());
+        updateStock.setInt(3, orden.getCentro_salida());
+        System.out.println(updateStock.toString());
+        updateStock.executeUpdate();
+        System.out.println("s4 O");
+        connection.commit();
+      }
+    } finally {
+      if (updateStock != null) {
+        updateStock.close();
+      }
+    }
+
+
+    return true;
+  } catch (SQLException e) {
+    try {
+      connection.rollback(savepoint);
+    } catch (SQLException ex) {
+    }
+  }finally {
+    try {
+      connection.close();
+    } catch (SQLException e) {
+    }
+  }
+  return false;
 }
+
+  public ObservableList<Ordenes> getTodasOrdenes(int centroUsuario) {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ObservableList<Ordenes> listaOrdenes = FXCollections.observableArrayList();
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      Statement stmt = connection.createStatement();
+      String sql = "SELECT * FROM `ordenes` WHERE ((`centro_salida`="+centroUsuario+") or (`centro_destino`="+centroUsuario+") and borradoLogico=0)";
+
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == false) {
+          int id_orden = rs.getInt("id_orden");
+          int  centro_salida = rs.getInt("centro_salida");
+          int centro_destino = rs.getInt("centro_destino");
+
+          LocalDate date=rs.getDate("fecha").toLocalDate();
+          EstadoOrden readyStatus = EstadoOrden.valueOf(rs.getString("estado"));
+          listaOrdenes.add(new Ordenes(id_orden, centro_salida, centro_destino,date,readyStatus));
+        }
+      }
+      return listaOrdenes;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != statement) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaOrdenes;
+  }
+
+    public ObservableList<OrdenesEliminar> getTodasOrdenesEliminar(int id_centro) {
+      Connection connection = null;
+      PreparedStatement statement = null;
+      ObservableList<OrdenesEliminar> listaOrdenes = FXCollections.observableArrayList(
+              new Callback<OrdenesEliminar, Observable[]>() {
+                @Override
+                public Observable[] call(OrdenesEliminar param) {
+                  return new Observable[]{
+                          param.borradoLogicoProperty()
+                  };
+                }
+              }
+      );
+      try {
+        connection = Database.getDBConnection();
+        connection.setAutoCommit(false);
+        Statement stmt = connection.createStatement();
+        String sql = "SELECT * FROM `ordenes` WHERE ((`centro_destino`="+id_centro+") and borradoLogico=0)";
+
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+          if (rs.getBoolean("borradoLogico") == false) {
+            int id_orden = rs.getInt("id_orden");
+            int  centro_salida = rs.getInt("centro_salida");
+            int centro_destino = rs.getInt("centro_destino");
+            LocalDate date=rs.getDate("fecha").toLocalDate();
+            EstadoOrden readyStatus = EstadoOrden.valueOf(rs.getString("estado"));
+            BooleanProperty borradoLogico = new SimpleBooleanProperty(true);
+            listaOrdenes.add(new OrdenesEliminar(id_orden, centro_salida, centro_destino,date,readyStatus,borradoLogico));
+          }
+        }
+        return listaOrdenes;
+      } catch (SQLException exception) {
+      } finally {
+        if (null != statement) {
+          try {
+            statement.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+        if (null != connection) {
+          try {
+            connection.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      return listaOrdenes;
+    }
+
+  public boolean recibirTraspasos(List<OrdenesEliminar> listaRecibir) {
+    Connection connection = Database.getDBConnection();
+    Savepoint savepoint = null;
+    int centroActual = Logica.getInstance().getUsuario().getId_centro();
+    int ordenContenido = -1;
+    int productoExiste = 0;
+
+    try {
+
+      savepoint = connection.setSavepoint();
+
+      System.out.println("s2 I");
+      PreparedStatement psSQL = null;
+      try {
+        connection = Database.getDBConnection();
+        connection.setAutoCommit(false);
+        for (OrdenesEliminar orden : listaRecibir) {
+          String consulta = ("select * from contenidoorden  where `id_orden`=?");
+          psSQL = connection.prepareStatement(consulta);
+          psSQL.setInt(1, orden.getId_orden());
+          System.out.println(psSQL.toString());
+          ResultSet rs = psSQL.executeQuery();
+          while (rs.next()) {
+            ordenContenido= (rs.getInt(2));
+            int idprod = (rs.getInt(3));
+            int cantidad = rs.getInt(4);
+
+
+            String existe = "select EXISTS(select 1 from `stock` where  ((`id_producto` = " + idprod + ") and (upper(`id_centro`)=upper(" + centroActual + "))))";
+            psSQL = connection.prepareStatement(existe);
+            ResultSet rsexite = psSQL.executeQuery();
+            while (rsexite.next()) {
+              productoExiste = (rsexite.getInt(1));
+            }
+
+            if (productoExiste == 1) {
+
+              String update = "UPDATE `stock` SET `cantidad` = cantidad+? WHERE (upper(`id_producto`) = upper(?)) and (upper(`id_centro`)=upper(" + centroActual + "))";
+              psSQL = connection.prepareStatement(update);
+              psSQL.setInt(1, idprod);
+              psSQL.setInt(2, cantidad);
+              psSQL.executeUpdate();
+
+            } else {
+              String update = " INSERT INTO `stock` (`id_centro`, `id_producto`, `cantidad`, `borradoLogico`) VALUES (" + centroActual + ", ?, ?, '0')";
+              psSQL = connection.prepareStatement(update);
+              psSQL.setInt(1, idprod);
+              psSQL.setInt(2, cantidad);
+              psSQL.executeUpdate();
+            }
+
+
+            String update = "UPDATE `ordenes` SET `estado` = '" + EstadoOrden.FINALIZADO + "' WHERE upper(`id_orden`) = ?";
+            psSQL = connection.prepareStatement(update);
+            psSQL.setInt(1, ordenContenido);
+            psSQL.executeUpdate();
+
+          }
+          connection.commit();
+        }
+
+        return true;
+
+
+      } catch (SQLException e) {
+        try {
+          connection.rollback(savepoint);
+        } catch (SQLException ex) {
+        }
+      } finally {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+  }

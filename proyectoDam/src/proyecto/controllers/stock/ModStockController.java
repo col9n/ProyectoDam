@@ -7,8 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Proveedor;
-import proyecto.modelos.Stock;
+import proyecto.modelos.stock.Stock;
 import proyecto.util.Util;
 
 import java.net.URL;
@@ -50,13 +49,20 @@ public class ModStockController implements Initializable {
                 t -> {
                     try {
                         Integer.parseInt(t.getNewValue());
-                        Stock stock = t.getTableView().getSelectionModel().getSelectedItem();
-                        stock.setCantidad((t.getNewValue()));
-                        for (Stock st : listaActualizar) {
-                            if (st.getId_stock() == stock.getId_stock())
-                                listaActualizar.remove(st);
+                        if(Integer.parseInt(t.getNewValue())>=0) {
+                            Stock stock = t.getTableView().getSelectionModel().getSelectedItem();
+                            stock.setCantidad((t.getNewValue()));
+                            for (Stock st : listaActualizar) {
+                                if (st.getId_stock() == stock.getId_stock())
+                                    listaActualizar.remove(st);
+                            }
+                            listaActualizar.add(stock);
                         }
-                        listaActualizar.add(stock);
+                        else
+                        {
+                            Util.alertaShow("Realizar cambios","Error introduzca un numero valido igual o mayor que 0 ", Alert.AlertType.WARNING);
+                            tableViewStock.refresh();
+                        }
                     }catch(Exception e){
                         Util.alertaShow("Realizar cambios","Error introduzca un numero ", Alert.AlertType.WARNING);
                         tableViewStock.refresh();

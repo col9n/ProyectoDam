@@ -7,13 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Proveedor;
+import proyecto.modelos.proveedores.Proveedor;
 import proyecto.util.Util;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static proyecto.util.Util.activacionBotonComboBox;
+import static proyecto.util.Util.activacionBotonComboBoxProduct;
+
 
 public class AddProductoController implements Initializable {
 
@@ -33,7 +34,7 @@ public class AddProductoController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nombreProveedor.setItems(Logica.getInstance().getDatabase().getTodosProveedores());
-        activacionBotonComboBox(nombreProducto,nombreProveedor, guardarProducto);
+        activacionBotonComboBoxProduct(nombreProducto,nombreProveedor, guardarProducto);
     }
 
     @FXML

@@ -187,6 +187,47 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab text="Traspasos">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
+                        <children>
+                            <BorderPane fx:id="borderPaneTraspasos" prefHeight="484.0" prefWidth="903.0">
+                                <left>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                        <children>
+                                            <Button fx:id="traspasosButAdd" mnemonicParsing="false" onAction="#traspasosdAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                                <VBox.margin>
+                                                    <Insets top="10.0" />
+                                                </VBox.margin>
+                                            </Button>
+                                            <Button fx:id="traspasosButVer" mnemonicParsing="false" onAction="#traspasosdVer" prefHeight="46.0" prefWidth="158.0" text="ver">
+                                                <VBox.margin>
+                                                    <Insets top="10.0" />
+                                                </VBox.margin>
+                                            </Button>
+                                            <Button fx:id="traspasosButEli" mnemonicParsing="false" onAction="#traspasosdEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                                <VBox.margin>
+                                                    <Insets top="10.0" />
+                                                </VBox.margin>
+                                            </Button>
+                                        </children>
+                                    </VBox>
+                                </left>
+                                <top>
+                                    <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+                                        <BorderPane.margin>
+                                            <Insets top="10.0" />
+                                        </BorderPane.margin>
+                                    </HBox>
+                                </top>
+                                <center>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                </center>
+                            </BorderPane>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
             <Tab text="Centros">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
@@ -279,52 +320,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Traspasos">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
-                     <children>
-                        <BorderPane fx:id="borderPane2111" prefHeight="484.0" prefWidth="903.0">
-                           <left>
-                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Button fx:id="prodButAña2111" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButVer2111" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButMod2111" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButEli2111" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </left>
-                           <top>
-                              <HBox prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
-                                 <BorderPane.margin>
-                                    <Insets top="10.0" />
-                                 </BorderPane.margin>
-                              </HBox>
-                           </top>
-                           <center>
-                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                           </center>
-                        </BorderPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
+
             </tabs>
         </TabPane>
         <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #121212;" VBox.vgrow="NEVER">

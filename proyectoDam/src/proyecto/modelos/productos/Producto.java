@@ -1,14 +1,21 @@
-package proyecto.modelos;
+package proyecto.modelos.productos;
 
 public class Producto {
     int id_producto;
     String nombre_producto;
     int id_proveedor;
+    int cantidad;
 
     public Producto(int id_producto, String nombre_producto, int id_proveedor) {
         this.id_producto = id_producto;
         this.nombre_producto = nombre_producto;
         this.id_proveedor = id_proveedor;
+    }
+
+    public Producto(int id_producto, int cantidad,String nombre_producto) {
+        this.id_producto = id_producto;
+        this.nombre_producto = nombre_producto;
+        this.cantidad = cantidad;
     }
 
     public int getId_producto() {
@@ -33,6 +40,14 @@ public class Producto {
 
     public void setId_proveedor(int id_proveedor) {
         this.id_proveedor = id_proveedor;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     @Override

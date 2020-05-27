@@ -7,9 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Producto;
-import proyecto.modelos.ProductoEliminar;
-import proyecto.modelos.Proveedor;
+import proyecto.modelos.productos.Producto;
+import proyecto.modelos.productos.ProductoEliminar;
+import proyecto.modelos.proveedores.Proveedor;
 import proyecto.util.Util;
 
 import java.net.URL;

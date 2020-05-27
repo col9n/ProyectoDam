@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package proyecto.modelos.stock;
 
 public class Stock {
     private int id_stock;

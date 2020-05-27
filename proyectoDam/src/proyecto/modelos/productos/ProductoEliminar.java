@@ -1,16 +1,16 @@
-package proyecto.modelos;
+package proyecto.modelos.productos;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 
-public class ProveedorEliminar extends Proveedor {
+public class ProductoEliminar extends Producto {
     private BooleanProperty borradoLogico;
     private CheckBox box=new CheckBox();
 
-    public ProveedorEliminar(int id_proveedor, String nombre_proveedor, String direccion_proveedor, BooleanProperty borradoLogico) {
-      super(id_proveedor,nombre_proveedor,direccion_proveedor);
+    public ProductoEliminar(int id_producto, String nombre_producto, int id_proveedor, BooleanProperty borradoLogico) {
+        super(id_producto, nombre_producto, id_proveedor);
         this.borradoLogico = borradoLogico;
         box.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -26,7 +26,6 @@ public class ProveedorEliminar extends Proveedor {
             }
         });
     }
-
 
     public boolean isBorradoLogico() {
         return borradoLogico.get();

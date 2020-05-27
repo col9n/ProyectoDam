@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import proyecto.Logica.Logica;
-import proyecto.modelos.Producto;
+import proyecto.modelos.productos.Producto;
 import proyecto.util.Util;
 
 import java.net.URL;

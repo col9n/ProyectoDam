@@ -60,7 +60,7 @@ public class PrincipalController implements Initializable {
     @FXML
     private Button producButEli;
 
-    /*------------- Zona del tab producto --------------*/
+    /*------------- Zona del tab stock --------------*/
     @FXML
     private BorderPane borderPaneStock;
 
@@ -69,6 +69,23 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private Button stockButVer;
+
+
+    /*------------- Zona del tab traspasos --------------*/
+    @FXML
+    private BorderPane borderPaneTraspasos;
+
+    @FXML
+    private Button traspasosButAdd;
+
+    @FXML
+    private Button traspasosButVer;
+
+    @FXML
+    private Button traspasosButMod;
+
+    @FXML
+    private Button traspasosButEli;
 
     /* Zona de border pane pie de pagina */
 
@@ -156,6 +173,18 @@ public class PrincipalController implements Initializable {
     }
 
     public void stockMod(ActionEvent actionEvent) {loadCenter("/proyecto/views/stock/ModStock",borderPaneStock);
+    }
+
+    /*------------- Zona del tab traspasos --------------*/
+
+    public void traspasosdAdd(ActionEvent actionEvent) {loadCenter("/proyecto/views/traspasos/AddTraspasos",borderPaneTraspasos);
+    }
+
+    public void traspasosdVer(ActionEvent actionEvent) {loadCenter("/proyecto/views/traspasos/VerTraspasos",borderPaneTraspasos);
+    }
+
+
+    public void traspasosdEli(ActionEvent actionEvent) {loadCenter("/proyecto/views/traspasos/EliTraspasos",borderPaneTraspasos);
     }
 
 

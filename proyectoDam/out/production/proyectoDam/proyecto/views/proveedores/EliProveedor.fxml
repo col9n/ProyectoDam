@@ -30,7 +30,7 @@
                 <PropertyValueFactory property="direccion_proveedor" />
             </cellValueFactory>
         </TableColumn>
-            <TableColumn fx:id="borrado" prefWidth="75.0" text="borrado">
+            <TableColumn fx:id="borrado" prefWidth="75.0" text="Borrado">
             <cellValueFactory>
                 <PropertyValueFactory property="box" />
             </cellValueFactory>

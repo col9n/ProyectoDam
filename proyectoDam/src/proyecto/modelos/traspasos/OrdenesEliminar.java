@@ -1,16 +1,19 @@
-package proyecto.modelos;
+package proyecto.modelos.traspasos;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
+import proyecto.modelos.EstadoOrden;
 
-public class ProductoEliminar extends Producto {
+import java.time.LocalDate;
+
+public class OrdenesEliminar extends Ordenes {
     private BooleanProperty borradoLogico;
     private CheckBox box=new CheckBox();
 
-    public ProductoEliminar(int id_producto, String nombre_producto, int id_proveedor, BooleanProperty borradoLogico) {
-        super(id_producto, nombre_producto, id_proveedor);
+    public OrdenesEliminar(int id_orden, int centro_salida, int centro_destino, LocalDate localDate, EstadoOrden readyStatus,BooleanProperty borradoLogico) {
+        super(id_orden, centro_salida, centro_destino, localDate, readyStatus);
         this.borradoLogico = borradoLogico;
         box.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -26,6 +29,7 @@ public class ProductoEliminar extends Producto {
             }
         });
     }
+
 
     public boolean isBorradoLogico() {
         return borradoLogico.get();
@@ -54,4 +58,5 @@ public class ProductoEliminar extends Producto {
                 "{ borradoLogico=" + borradoLogico +
                 '}';
     }
+
 }

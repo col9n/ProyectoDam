@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package proyecto.modelos.proveedores;
 
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
