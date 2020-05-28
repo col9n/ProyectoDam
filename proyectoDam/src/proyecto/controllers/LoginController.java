@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.controlsfx.validation.ValidationSupport;
 import proyecto.Logica.Logica;
 import proyecto.util.Util;
 
@@ -33,7 +32,7 @@ public class LoginController {
     @FXML
     private void entrar(ActionEvent event) {
 
-        boolean existe= Logica.getInstance().getDatabase().userExists(text.getText(),pass.getText());
+        boolean existe= Logica.getInstance().getDatabase().loginUser(text.getText(),pass.getText());
         if(existe )
         {
             changeScene();

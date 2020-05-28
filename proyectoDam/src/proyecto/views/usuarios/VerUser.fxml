@@ -2,7 +2,6 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,23 +10,28 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllers.productos.VerProductoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllers.usuarios.VerUsuarioController">
     <children>
         <TableView fx:id="tableViewProveedor" editable="true" prefHeight="333.0" prefWidth="600.0">
             <columns>
-                <TableColumn fx:id="idColum" prefWidth="75.0" text="ID producto">
+                <TableColumn fx:id="idColum" prefWidth="75.0" text="ID usuario">
                     <cellValueFactory>
-                        <PropertyValueFactory property="id_producto" />
+                        <PropertyValueFactory property="id_usuario" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="nombreColum" prefWidth="75.0" text="Nombre">
                     <cellValueFactory>
-                        <PropertyValueFactory property="nombre_producto" />
+                        <PropertyValueFactory property="nombre_usuario" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="dirreccionColum" prefWidth="75.0" text="ID proveedor">
+                <TableColumn fx:id="primerAppelidoColum" prefWidth="75.0" text="Primer apellido">
                     <cellValueFactory>
-                        <PropertyValueFactory property="id_proveedor" />
+                        <PropertyValueFactory property="apellido1" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="segundoAppelidoColum" prefWidth="75.0" text="Segundo apellido">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="apellido2" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
@@ -40,9 +44,10 @@
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Todo" />
-                    <String fx:value="ID producto" />
+                    <String fx:value="ID usuario" />
                     <String fx:value="Nombre" />
-                    <String fx:value="ID proveedor" />
+                    <String fx:value="Primer apellido" />
+                    <String fx:value="Segundo apellido" />
                 </FXCollections>
             </items>
             <value>

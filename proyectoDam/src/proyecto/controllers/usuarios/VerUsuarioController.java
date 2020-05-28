@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import proyecto.Logica.Logica;
+import proyecto.modelos.Usuario;
 import proyecto.modelos.productos.Producto;
 import proyecto.util.Util;
 
@@ -15,10 +16,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class VerUsuarioController implements Initializable {
-    private ObservableList<Producto> productosObservableList =Logica.getInstance().getDatabase().getTodosProductos();
+    private ObservableList<Usuario> productosObservableList =Logica.getInstance().getDatabase().getTodosUsuario();
 
     @FXML
-    private TableView<Producto> tableViewProveedor;
+    private TableView<Usuario> tableViewProveedor;
 
     @FXML
     private ComboBox<String> combobox;
@@ -37,34 +38,42 @@ public class VerUsuarioController implements Initializable {
 
     private void filtrarLista() {
         String opcion=combobox.getSelectionModel().getSelectedItem();
-        ObservableList<Producto> listaFiltrada= FXCollections.observableArrayList();
+        ObservableList<Usuario> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(producto.toString()).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Usuario user: productosObservableList) {
+                if(Util.stringToMayus(user.toString()).contains(Util.stringToMayus(textProveedor.getText())))
+                    listaFiltrada.add(user);
             }
         }
-        if(opcion.equalsIgnoreCase("ID producto"))
+        if(opcion.equalsIgnoreCase("ID usuario"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(String.valueOf(producto.getId_producto())).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Usuario user: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(user.getId_usuario())).contains(Util.stringToMayus(textProveedor.getText())))
+                    listaFiltrada.add(user);
             }
         }
         if(opcion.equalsIgnoreCase("Nombre"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(producto.getNombre_producto()).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Usuario user: productosObservableList) {
+                if(Util.stringToMayus(user.getNombre_usuario()).contains(Util.stringToMayus(textProveedor.getText())))
+                    listaFiltrada.add(user);
             }
         }
 
-        if(opcion.equalsIgnoreCase("ID proveedor"))
+        if(opcion.equalsIgnoreCase("Primer apellido"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(String.valueOf(producto.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Usuario user: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(user.getApellido1())).contains(Util.stringToMayus(textProveedor.getText())))
+                    listaFiltrada.add(user);
+            }
+        }
+
+        if(opcion.equalsIgnoreCase("Segundo apellido"))
+        {
+            for (Usuario user: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(user.getApellido2())).contains(Util.stringToMayus(textProveedor.getText())))
+                    listaFiltrada.add(user);
             }
         }
         tableViewProveedor.setItems(listaFiltrada);

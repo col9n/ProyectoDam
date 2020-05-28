@@ -14,6 +14,7 @@ module proyectoDam {
     exports proyecto.modelos.proveedores;
     exports proyecto.modelos.productos;
     exports proyecto.modelos.traspasos;
+    exports proyecto.modelos;
     exports proyecto.util;
 
 
@@ -25,6 +26,8 @@ module proyectoDam {
     opens proyecto.controllers.productos to javafx.fxml;
     opens proyecto.controllers.stock to javafx.fxml;
     opens proyecto.controllers.traspasos to javafx.fxml;
+    opens proyecto.controllers.usuarios to javafx.fxml;
+    opens proyecto.controllers.centros to javafx.fxml;
 
 
 }

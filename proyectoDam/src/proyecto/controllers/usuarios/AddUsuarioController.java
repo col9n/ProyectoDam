@@ -2,24 +2,19 @@ package proyecto.controllers.usuarios;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import proyecto.Logica.Logica;
+import proyecto.modelos.Centro;
 import proyecto.modelos.proveedores.Proveedor;
 import proyecto.util.Util;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static proyecto.util.Util.activacionBotonComboBoxProduct;
+import static proyecto.util.Util.*;
 
 
 public class AddUsuarioController implements Initializable {
-
-    @FXML
-    private TextField nombreProducto;
 
     @FXML
     private Button guardarProducto;
@@ -28,37 +23,62 @@ public class AddUsuarioController implements Initializable {
     private Button limpiarProducto;
 
     @FXML
-    private ComboBox<Proveedor> nombreProveedor;
+    private ComboBox<Centro> centroEmpleado;
+
+    @FXML
+    private TextField nombreEmpleado;
+
+    @FXML
+    private TextField primerApellido;
+
+    @FXML
+    private TextField segundoApellido;
+
+    @FXML
+    private TextField userEmpleado;
+
+    @FXML
+    private PasswordField pass;
+
+    @FXML
+    private PasswordField passRep;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        nombreProveedor.setItems(Logica.getInstance().getDatabase().getTodosProveedores());
-        activacionBotonComboBoxProduct(nombreProducto,nombreProveedor, guardarProducto);
+        centroEmpleado.setItems(Logica.getInstance().getDatabase().getTodosCentros());
+        activacionBoton(userEmpleado,pass,passRep,nombreEmpleado,primerApellido,segundoApellido,centroEmpleado, guardarProducto);
     }
 
     @FXML
-    private void limpiarAddProveedor() {
-        nombreProducto.setText("");
+    private void limpiarAddUsuario() {
+        nombreEmpleado.setText("");
+        primerApellido.setText("");
+        segundoApellido.setText("");
+        userEmpleado.setText("");
+        pass.setText("");
+        passRep.setText("");
     }
 
     @FXML
-    private void guardarProveedor() {
-        String nombre =Util.stringToMayus(nombreProducto.getText());
-        Proveedor proveedor=  nombreProveedor.getSelectionModel().getSelectedItem();
-            boolean existe= Logica.getInstance().getDatabase().productoExists(nombre);
+    private void guardarUsuario() {
+        Centro centro=  centroEmpleado.getSelectionModel().getSelectedItem();
+        if( passEquals( pass.getText(), passRep.getText())) {
+            boolean existe= Logica.getInstance().getDatabase().userExist(userEmpleado.getText(),pass.getText());
             if(!existe)
             {
-                int inserto = Logica.getInstance().getDatabase().addProducto(nombre, proveedor.getId_proveedor());
-                if (inserto != 0)
-                    Util.alertaShow("Consulta realizada", "El producto fue guardado con nombre: "+nombre+ " y proveedor: "+Util.stringToMayus(proveedor.getNombre_proveedor()), Alert.AlertType.INFORMATION);
+                int inserto = Logica.getInstance().getDatabase().addUser(userEmpleado.getText(),pass.getText(),nombreEmpleado.getText(),primerApellido.getText(),segundoApellido.getText(),centro.getId_centro());
+                if (inserto==1)
+                    Util.alertaShow("Consulta realizada", "El usuario fue guardado "+ nombreEmpleado.getText(), Alert.AlertType.INFORMATION);
                 else
-                    Util.alertaShow("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
+                    Util.alertaShow("Fallo de consulta","El usuario no se pudo guardar ", Alert.AlertType.ERROR);
             }
             else
-                Util.alertaShow("Campos vacios","El proveedor :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
+                Util.alertaShow("Fallo en la creacion","Ese usuario ya existe ", Alert.AlertType.WARNING);
         limpiarProducto.fire();
-
+    }
     }
 
 }

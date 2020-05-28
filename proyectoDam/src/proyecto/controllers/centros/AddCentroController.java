@@ -19,7 +19,7 @@ import static proyecto.util.Util.activacionBotonComboBoxProduct;
 public class AddCentroController implements Initializable {
 
     @FXML
-    private TextField nombreProducto;
+    private TextField direccionCentro;
 
     @FXML
     private Button guardarProducto;
@@ -27,36 +27,34 @@ public class AddCentroController implements Initializable {
     @FXML
     private Button limpiarProducto;
 
-    @FXML
-    private ComboBox<Proveedor> nombreProveedor;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        nombreProveedor.setItems(Logica.getInstance().getDatabase().getTodosProveedores());
-        activacionBotonComboBoxProduct(nombreProducto,nombreProveedor, guardarProducto);
+        activacionBotonComboBoxProduct(direccionCentro, guardarProducto);
     }
 
     @FXML
     private void limpiarAddProveedor() {
-        nombreProducto.setText("");
+        direccionCentro.setText("");
     }
 
     @FXML
     private void guardarProveedor() {
-        String nombre =Util.stringToMayus(nombreProducto.getText());
-        Proveedor proveedor=  nombreProveedor.getSelectionModel().getSelectedItem();
-            boolean existe= Logica.getInstance().getDatabase().productoExists(nombre);
-            if(!existe)
+        String nombre =Util.stringToMayus(direccionCentro.getText().toString());
+        System.out.println(nombre);
+            boolean existe= Logica.getInstance().getDatabase().centroExsist(nombre);
+            if(existe)
             {
-                int inserto = Logica.getInstance().getDatabase().addProducto(nombre, proveedor.getId_proveedor());
+                int inserto = Logica.getInstance().getDatabase().addCentro(nombre);
                 if (inserto != 0)
-                    Util.alertaShow("Consulta realizada", "El producto fue guardado con nombre: "+nombre+ " y proveedor: "+Util.stringToMayus(proveedor.getNombre_proveedor()), Alert.AlertType.INFORMATION);
+                    Util.alertaShow("Consulta realizada", "El centro fue guardado con la siguiente dirrecion: "+nombre, Alert.AlertType.INFORMATION);
                 else
                     Util.alertaShow("Fallo de consulta","El proveedor no se pudo guardar", Alert.AlertType.ERROR);
             }
             else
-                Util.alertaShow("Campos vacios","El proveedor :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
+                Util.alertaShow("Campos vacios","El centro :"+nombre+" ya esta creado", Alert.AlertType.WARNING);
         limpiarProducto.fire();
 
     }

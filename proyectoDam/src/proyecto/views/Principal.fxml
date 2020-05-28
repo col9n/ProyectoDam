@@ -232,26 +232,16 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPane21" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneCentros" prefHeight="484.0" prefWidth="903.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="prodButAña21" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                    <Button fx:id="centroButAdd" mnemonicParsing="false" onAction="#centrosdAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="provedButVer21" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButMod21" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButEli21" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                    <Button fx:id="centroButVer" mnemonicParsing="false" onAction="#centrosVer" prefHeight="46.0" prefWidth="158.0" text="ver">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
@@ -278,26 +268,16 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPane211" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneUsuarios" prefHeight="484.0" prefWidth="903.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="prodButAña211" mnemonicParsing="false" onAction="#provedAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
+                                    <Button fx:id="usuariosButAdd" mnemonicParsing="false" onAction="#usuariosdAdd" prefHeight="46.0" prefWidth="158.0" text="añadir">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="provedButVer211" mnemonicParsing="false" onAction="#provedVer" prefHeight="46.0" prefWidth="158.0" text="ver">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButMod211" mnemonicParsing="false" onAction="#provedMod" prefHeight="46.0" prefWidth="158.0" text="modificar">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button fx:id="provedButEli211" mnemonicParsing="false" onAction="#provedEli" prefHeight="46.0" prefWidth="158.0" text="elimnar">
+                                    <Button fx:id="usuariosButVer" mnemonicParsing="false" onAction="#usuariosdVer" prefHeight="46.0" prefWidth="158.0" text="ver">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>

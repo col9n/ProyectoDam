@@ -25,8 +25,17 @@ public class Centro {
         this.direccion = direccion;
     }
 
+
+    public String verInfor() {
+        return "Centro{" +
+                "id_centro=" + id_centro +
+                ", direccion='" + direccion + '\'' +
+                '}';
+    }
+
     @Override
     public String toString() {
-        return "Centro " +id_centro+ " en "+direccion;
+        return "ID "+this.id_centro+" direccion "+this.direccion;
     }
+
 }

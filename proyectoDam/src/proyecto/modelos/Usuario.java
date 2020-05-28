@@ -18,6 +18,13 @@ public class Usuario {
         this.id_centro = id_centro;
     }
 
+    public Usuario(int id_usuario, String nombre, String ape1, String ape2) {
+        this.id_usuario = id_usuario;
+        this.nombre_usuario = nombre;
+        this.apellido1 = ape1;
+        this.apellido2 = ape2;
+    }
+
     public int getId_usuario() {
         return id_usuario;
     }

@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import proyecto.Logica.Logica;
+import proyecto.modelos.Centro;
 import proyecto.modelos.productos.Producto;
 import proyecto.util.Util;
 
@@ -15,59 +16,53 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class VerCentroController implements Initializable {
-    private ObservableList<Producto> productosObservableList =Logica.getInstance().getDatabase().getTodosProductos();
+    private ObservableList<Centro> productosObservableList =Logica.getInstance().getDatabase().getTodosCentrosNoPropios(Logica.getInstance().getUsuario().getId_centro());
 
     @FXML
-    private TableView<Producto> tableViewProveedor;
+    private TableView<Centro> tableViewCentro;
 
     @FXML
     private ComboBox<String> combobox;
 
 
     @FXML
-    private TextField textProveedor;
+    private TextField textCentro;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableViewProveedor.setItems(productosObservableList);
+        tableViewCentro.setItems(productosObservableList);
 
-        textProveedor.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
+        textCentro.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista());
     }
 
 
     private void filtrarLista() {
         String opcion=combobox.getSelectionModel().getSelectedItem();
-        ObservableList<Producto> listaFiltrada= FXCollections.observableArrayList();
+        ObservableList<Centro> listaFiltrada= FXCollections.observableArrayList();
         if(opcion.equalsIgnoreCase("Todo"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(producto.toString()).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Centro centro: productosObservableList) {
+                if(Util.stringToMayus(centro.verInfor()).contains(Util.stringToMayus(textCentro.getText())))
+                    listaFiltrada.add(centro);
             }
         }
-        if(opcion.equalsIgnoreCase("ID producto"))
+        if(opcion.equalsIgnoreCase("ID centro"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(String.valueOf(producto.getId_producto())).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Centro centro: productosObservableList) {
+                if(Util.stringToMayus(String.valueOf(centro.getId_centro())).contains(Util.stringToMayus(textCentro.getText())))
+                    listaFiltrada.add(centro);
             }
         }
-        if(opcion.equalsIgnoreCase("Nombre"))
+        if(opcion.equalsIgnoreCase("Direccion"))
         {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(producto.getNombre_producto()).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
+            for (Centro centro: productosObservableList) {
+                if(Util.stringToMayus(centro.getDireccion()).contains(Util.stringToMayus(textCentro.getText())))
+                    listaFiltrada.add(centro);
             }
         }
 
-        if(opcion.equalsIgnoreCase("ID proveedor"))
-        {
-            for (Producto producto: productosObservableList) {
-                if(Util.stringToMayus(String.valueOf(producto.getId_proveedor())).contains(Util.stringToMayus(textProveedor.getText())))
-                    listaFiltrada.add(producto);
-            }
-        }
-        tableViewProveedor.setItems(listaFiltrada);
+
+        tableViewCentro.setItems(listaFiltrada);
     }
 
 }

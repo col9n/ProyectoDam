@@ -21,7 +21,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -61,7 +60,50 @@ public class Database {
     return connection;
   }
 
-  public boolean userExists(String user, String pass) {
+  public boolean userExist(String user, String pass) {
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("SELECT `id_usuario`,`nombre_usuario`,`apellido1`,`apellido2`,`usuario`,`id_centro`,`borradoLogico` FROM `usuarios` where `usuario` = ? and pass=MD5(?);");
+      psSQL.setString(1, user);
+      psSQL.setString(2, pass);
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()) {
+        if (rs.getBoolean("borradoLogico") == true)
+          return false;
+        int id_usuario = rs.getInt("id_usuario");
+        String nombre_usuario = rs.getString("nombre_usuario");
+        String apellido1 = rs.getString("apellido1");
+        String apellido2 = rs.getString("apellido2");
+        String usuario = rs.getString("usuario");
+        int id_centro = rs.getInt("id_centro");
+
+        return true;
+      }
+      return false;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean loginUser(String user, String pass) {
     Connection connection = null;
     PreparedStatement psSQL = null;
     try {
@@ -104,6 +146,46 @@ public class Database {
       }
     }
     return false;
+  }
+
+  public int addUser(String user, String pass, String nombre, String apellido1, String apellido2, int centro) {
+    Connection connection = null;
+    PreparedStatement psInsertar = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psInsertar = connection.prepareStatement( "INSERT INTO `usuarios` ( `nombre_usuario`, `apellido1`, `apellido2`, `usuario`, `pass`, `id_centro`, `borradoLogico`) VALUES (?, ?, ?, ?, MD5(?), ?,0)");
+      psInsertar.setString(1, nombre);
+      psInsertar.setString(2, apellido1);
+      psInsertar.setString(3, apellido2);
+      psInsertar.setString(4, user);
+      psInsertar.setString(5, pass);
+      psInsertar.setInt(6, centro);
+      rs = psInsertar.executeUpdate();
+      System.out.println(psInsertar.toString());
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+      System.out.println(exception.toString());
+    } finally {
+      if (null != psInsertar) {
+        try {
+          psInsertar.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+          System.out.println(e.toString());
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
   }
 
 
@@ -734,6 +816,41 @@ public class Database {
     return listaCentro;
   }
 
+  public ObservableList<Centro> getTodosCentros() {
+    ObservableList<Centro> listaCentro = FXCollections.observableArrayList();
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("select id_centro,direccion_centro from centros a where (borradoLogico=0) order by id_centro");
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()){
+        int id_centro = rs.getInt("id_centro");
+        String direccion = rs.getString("direccion_centro");
+        listaCentro.add(new Centro(id_centro,direccion));
+      }
+      return listaCentro;
+    } catch (SQLException exception) {
+      System.out.println(exception.toString());
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaCentro;
+  }
 
 
   public boolean generarOrden(Ordenes orden,ObservableList<Producto> lista){
@@ -882,7 +999,7 @@ public class Database {
     return listaOrdenes;
   }
 
-    public ObservableList<OrdenesEliminar> getTodasOrdenesEliminar(int id_centro) {
+  public ObservableList<OrdenesEliminar> getTodasOrdenesEliminar(int id_centro) {
       Connection connection = null;
       PreparedStatement statement = null;
       ObservableList<OrdenesEliminar> listaOrdenes = FXCollections.observableArrayList(
@@ -1014,4 +1131,91 @@ public class Database {
     }
     return false;
   }
+
+  public boolean centroExsist(String nombre) {
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("SELECT EXISTS(SELECT `direccion_centro` FROM `centros` where `direccion_centro` = ?)");
+      psSQL.setString(1, nombre);
+      return psSQL.execute();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+
   }
+
+  public int addCentro(String nombre) {
+    Connection connection = null;
+    PreparedStatement psInsertar = null;
+    int rs = 0;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psInsertar = connection.prepareStatement("INSERT INTO `centros` (`direccion_centro`, `borradoLogico`) VALUES (?,'0')");
+      psInsertar.setString(1, nombre);
+      rs = psInsertar.executeUpdate();
+      connection.commit();
+      return rs;
+    } catch (SQLException exception) {
+    } finally {
+      if (null != psInsertar) {
+        try {
+          psInsertar.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return rs;
+  }
+
+  public ObservableList<Usuario> getTodosUsuario() {
+    ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+    Connection connection = null;
+    PreparedStatement psSQL = null;
+    try {
+      connection = Database.getDBConnection();
+      connection.setAutoCommit(false);
+      psSQL = connection.prepareStatement("select id_usuario,nombre_usuario,apellido1,apellido2 from usuarios a where (borradoLogico=0) order by id_centro");
+      ResultSet rs = psSQL.executeQuery();
+      while (rs.next()){
+        int id_usuario = rs.getInt("id_usuario");
+        String nombre = rs.getString("nombre_usuario");
+        String ape1 = rs.getString("apellido1");
+        String ape2 = rs.getString("apellido2");
+        listaUsuarios.add(new Usuario(id_usuario,nombre,ape1,ape2));
+      }
+      return listaUsuarios;
+    } catch (SQLException exception) {
+      System.out.println(exception.toString());
+    } finally {
+      if (null != psSQL) {
+        try {
+          psSQL.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return listaUsuarios;
+  }
+}

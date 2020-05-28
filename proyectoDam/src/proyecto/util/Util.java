@@ -44,6 +44,51 @@ public class Util {
 
     }
 
+    public static void  activacionBoton(TextField userEmpleado,PasswordField pass,PasswordField passRep,TextField nombreEmpleado,TextField primerApellido,TextField segundoApellido,ComboBox centroEmpleado,Button guardarProducto){
+        ValidationSupport validationSupport = new ValidationSupport();
+
+        validationSupport.registerValidator(userEmpleado, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        userEmpleado.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(nombreEmpleado, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        nombreEmpleado.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(primerApellido, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        primerApellido.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(segundoApellido, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        segundoApellido.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(centroEmpleado, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        centroEmpleado.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(pass, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        pass.setPromptText("No puede estar vacio");
+
+        validationSupport.registerValidator(passRep, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        passRep.setPromptText("No puede estar vacio");
+
+        guardarProducto.disableProperty().bind(validationSupport.invalidProperty());
+    }
+
+    public static boolean  passEquals(String pass,String pass1){
+        if(!pass.equals(pass1))
+        {
+            alertaShow("Contraseña diferentes","Revise las contraseñas", Alert.AlertType.ERROR);
+            return false;
+        }
+        return true;
+    }
+
+
+    public static void activacionBotonComboBoxProduct(TextField textField, Button button){
+        ValidationSupport validationSupport = new ValidationSupport();
+        validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));
+        textField.setPromptText("No puede estar vacio");
+        button.disableProperty().bind(validationSupport.invalidProperty());
+
+    }
+
     public static void activacionBotonComboBoxTraspasoAdd(TextField textField, ComboBox combobox,ComboBox combobox1, Button button){
         ValidationSupport validationSupport = new ValidationSupport();
         validationSupport.registerValidator(textField, Validator.createEmptyValidator("Este campo no puede estar vacío"));

@@ -87,6 +87,28 @@ public class PrincipalController implements Initializable {
     @FXML
     private Button traspasosButEli;
 
+    /*------------- Zona del tab centro --------------*/
+    @FXML
+    private BorderPane borderPaneCentros;
+
+    @FXML
+    private Button centroButAdd;
+
+    @FXML
+    private Button centroButVer;
+
+
+    /*------------- Zona del tab usuarios --------------*/
+    @FXML
+    private BorderPane borderPaneUsuarios;
+
+    @FXML
+    private Button usuariosButAdd;
+
+    @FXML
+    private Button usuariosButVer;
+
+
     /* Zona de border pane pie de pagina */
 
     /* Zona de border pane pie de pagina izquierda */
@@ -186,6 +208,26 @@ public class PrincipalController implements Initializable {
 
     public void traspasosdEli(ActionEvent actionEvent) {loadCenter("/proyecto/views/traspasos/EliTraspasos",borderPaneTraspasos);
     }
+
+    /*------------- Zona del tab centros --------------*/
+
+    public void centrosdAdd(ActionEvent actionEvent) {loadCenter("/proyecto/views/centros/AddCentro",borderPaneCentros);
+    }
+
+    public void centrosVer(ActionEvent actionEvent) {loadCenter("/proyecto/views/centros/VerCentro",borderPaneCentros);
+    }
+
+
+
+
+    /*------------- Zona del tab usuarios --------------*/
+
+    public void usuariosdAdd(ActionEvent actionEvent) {loadCenter("/proyecto/views/usuarios/AddUser",borderPaneUsuarios);
+    }
+
+    public void usuariosdVer(ActionEvent actionEvent) {loadCenter("/proyecto/views/usuarios/VerUser",borderPaneUsuarios);
+    }
+
 
 
 }
