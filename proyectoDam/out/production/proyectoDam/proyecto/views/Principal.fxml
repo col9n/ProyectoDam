@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="568.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllers.PrincipalController">
@@ -63,7 +62,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                             <children>
-                        <BorderPane fx:id="borderPaneProved" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneProved" minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
@@ -98,7 +97,10 @@
                               </HBox>
                            </top>
                            <center>
-                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding></HBox>
                            </center>
                         </BorderPane>
                             </children>
@@ -109,7 +111,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPaneProduc" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneProduc" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
@@ -144,7 +146,7 @@
                               </HBox>
                            </top>
                            <center>
-                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
                            </center>
                         </BorderPane>
                      </children>
@@ -155,7 +157,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPaneStock" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneStock" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
@@ -191,7 +193,7 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                         <children>
-                            <BorderPane fx:id="borderPaneTraspasos" prefHeight="484.0" prefWidth="903.0">
+                            <BorderPane fx:id="borderPaneTraspasos" minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <left>
                                     <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                         <children>
@@ -232,7 +234,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPaneCentros" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneCentros" minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
@@ -268,7 +270,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="900.0">
                      <children>
-                        <BorderPane fx:id="borderPaneUsuarios" prefHeight="484.0" prefWidth="903.0">
+                        <BorderPane fx:id="borderPaneUsuarios" minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="903.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
@@ -303,26 +305,20 @@
 
             </tabs>
         </TabPane>
-        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #121212;" VBox.vgrow="NEVER">
+        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #DEDEDE;" VBox.vgrow="NEVER">
             <children>
             <BorderPane fx:id="borderPaneFooter" prefHeight="0.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
                <left>
                         <Label fx:id="labelBotIzq" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="user-centro" BorderPane.alignment="CENTER">
                             <font>
-                                <Font size="11.0" fx:id="x3" />
+                                <Font name="System Bold" size="12.0" fx:id="x3" />
                             </font>
-                            <textFill>
-                                <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
-                            </textFill>
                         </Label>
                </left>
                <right>
                         <Label fx:id="labelBotDer" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="hora-fecha" BorderPane.alignment="CENTER">
-                     <textFill>
-                        <Color blue="0.625" green="0.625" red="0.625" fx:id="x5" />
-                     </textFill>
                      <font>
-                        <Font size="11.0" fx:id="x6" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </right>

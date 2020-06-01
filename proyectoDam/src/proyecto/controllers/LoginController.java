@@ -3,21 +3,25 @@ package proyecto.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import proyecto.Logica.Logica;
 import proyecto.util.Util;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-
-public class LoginController {
+public class LoginController  {
     private Stage stage=new Stage();
 
     @FXML
@@ -28,6 +32,7 @@ public class LoginController {
 
     @FXML
     private Button button;
+
 
     @FXML
     private void entrar(ActionEvent event) {
@@ -49,8 +54,14 @@ public class LoginController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/proyecto/views/Principal.fxml"));
             Parent root = fxmlLoader.load();
             PrincipalController principalController = (PrincipalController) fxmlLoader.getController();
-            stage.setTitle("");
+            stage.setTitle("Control Inventario");
+            stage.setResizable(true);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(600);
+            stage.setMaxWidth(1200);
+            stage.setMaxHeight(900);
             stage.setScene(new Scene(root));
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -124,6 +124,13 @@ public class PrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         labelBotIzq.setText(Logica.getInstance().getUsuario().toString());
         setFechaYHora();
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneProved);
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneProduc);
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneStock);
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneTraspasos);
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneCentros);
+        loadCenter("/proyecto/views/recursos/cargaPane",borderPaneUsuarios);
+
     }
 
     public Stage getStage() {

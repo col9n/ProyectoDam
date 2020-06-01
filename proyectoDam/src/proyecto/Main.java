@@ -20,8 +20,9 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         LoginController loginController = (LoginController) fxmlLoader.getController();
         loginController.setStage(primaryStage);
-        primaryStage.show();
-        primaryStage.setScene(new Scene(root,600,400));
+        primaryStage.setTitle("Login Control Inventario");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root,600,300));
         primaryStage.show();
 
 

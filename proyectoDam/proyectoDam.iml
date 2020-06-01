@@ -10,5 +10,6 @@
     <orderEntry type="library" name="javafx-swt" level="project" />
     <orderEntry type="library" name="mysql:mysql-connector-java:5.1.48" level="project" />
     <orderEntry type="library" name="controlsfx-8.40.11" level="project" />
+    <orderEntry type="library" name="net.sf.jasperreports:jasperreports:6.11.0" level="project" />
   </component>
 </module>

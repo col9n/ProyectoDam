@@ -9,11 +9,13 @@ import javafx.util.Callback;
 import proyecto.modelos.*;
 import proyecto.modelos.productos.Producto;
 import proyecto.modelos.productos.ProductoEliminar;
+import proyecto.modelos.productos.ProductoImprimir;
 import proyecto.modelos.proveedores.Proveedor;
 import proyecto.modelos.proveedores.ProveedorEliminar;
 import proyecto.modelos.stock.Stock;
 import proyecto.modelos.traspasos.Ordenes;
 import proyecto.modelos.traspasos.OrdenesEliminar;
+import proyecto.modelos.traspasos.OrdenesImprimir;
 import proyecto.util.Util;
 
 import java.sql.*;
@@ -21,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -1218,4 +1221,67 @@ public class Database {
     }
     return listaUsuarios;
   }
+
+    public ArrayList<OrdenesImprimir> getOrdenesImprimir(int id_orden) {
+
+      Connection connection = null;
+      PreparedStatement statement = null;
+      ArrayList<OrdenesImprimir> listaOrdenes = new ArrayList<>();
+      ArrayList<ProductoImprimir> listaProductos = new ArrayList<>();
+      try {
+        connection = Database.getDBConnection();
+        connection.setAutoCommit(false);
+        Statement stmt = connection.createStatement();
+        String sql = "SELECT * FROM `ordenes` WHERE (`id_orden`="+id_orden+") ";
+        int orden=-1;
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+          if (rs.getBoolean("borradoLogico") == false) {
+            orden = rs.getInt("id_orden");
+            int centro_salida = rs.getInt("centro_salida");
+            int centro_destino = rs.getInt("centro_destino");
+            LocalDate date = rs.getDate("fecha").toLocalDate();
+            int id_usuario = rs.getInt("id_usuario");
+            OrdenesImprimir ordenesImprimir = new OrdenesImprimir(orden, centro_salida, centro_destino, date, id_usuario);
+            listaOrdenes.add(ordenesImprimir);
+          }
+        }
+            rs = stmt.executeQuery("select a.id_producto,cantidadorden,nombre_producto from contenidoorden a,productos b where a.id_producto=b.id_producto and id_orden="+orden);
+            while (rs.next()) {
+                int  id_producto = rs.getInt("id_producto");
+                int cantidad = rs.getInt("cantidadorden");
+                String nombre =rs.getString("nombre_producto");
+                ProductoImprimir producto=new ProductoImprimir(id_producto,  cantidad,nombre);
+                listaProductos.add(producto);
+            }
+          listaOrdenes.get(0).setListaProductos(listaProductos);
+
+
+
+
+
+        return listaOrdenes;
+      } catch (SQLException exception) {
+      } finally {
+        if (null != statement) {
+          try {
+            statement.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+        if (null != connection) {
+          try {
+            connection.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      return listaOrdenes;
+
+
+    }
+
+
 }

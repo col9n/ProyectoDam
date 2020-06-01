@@ -5,6 +5,7 @@ module proyectoDam {
     requires javafx.web;
     requires java.sql;
     requires controlsfx;
+    requires jasperreports;
 
 
     exports proyecto;

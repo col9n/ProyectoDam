@@ -1,10 +1,12 @@
 package proyecto.util;
 
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+import java.io.File;
 import java.util.List;
 
 public class Util {
@@ -116,5 +118,12 @@ public class Util {
 
     public static String stringToMayus(String palabra){
         return palabra.toUpperCase();
+    }
+
+    public static File getFile() {
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.getExtensionFilters().add(extFilter);
+        return fileChooser.showSaveDialog(null);
     }
 }
